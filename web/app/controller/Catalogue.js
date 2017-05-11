@@ -69,15 +69,20 @@ Ext.define('OrdersApp.controller.Catalogue', {
                 var el = new OrdersApp.model.OrderElem({
                     id: 1,
                     order_id: 1,
-                    item_id: 10,
+                    item_id: 23,
                     items_count: 2,
                     item_price: 10
                 });
-
+             
+                
                 el.getItem(function (item, operation) {
+                    console.log('item',item);
 
-                    alert(item.get('id')); // alerts 20
+                    alert(item.get('name')); 
                 }, this);
+                
+       
+                
             } else
             {
                 var cart = tabs.child('#cart');
