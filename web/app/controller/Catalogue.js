@@ -55,34 +55,46 @@ Ext.define('OrdersApp.controller.Catalogue', {
                     itemId: 'cart',
                     title: 'Kорзина',
                     icon: 'resources/cart-2x.png',
-                    model: 'OrderElem',
                     items: [{xtype: 'grid',
                             itemId: 'cartgrid',
+                            model: 'OrderElem',
+                            store: 'OrderElem',
+
                             columns: [
-                                {text: 'Товар', dataIndex: 'name'},
+                                {text: 'Товар', dataIndex: 'item.name'},
                                 {text: 'Кол-во', dataIndex: 'items_count'},
                                 {text: 'Цена', dataIndex: 'price'}
                             ]}]
                 }));
 
-
-                var el = new OrdersApp.model.OrderElem({
+                var el = selectedRecord.elements();
+                el.add({'items_count':166,'order_id':1});  
+                console.log('ELEM', el.getAt(0));
+                el.sync();
+             /*   var el = new OrdersApp.model.OrderElem({
                     id: 1,
                     order_id: 1,
                     item_id: 23,
                     items_count: 2,
                     item_price: 10
-                });
-             
-                
-                el.getItem(function (item, operation) {
-                    console.log('item',item);
+                });*/
 
-                    alert(item.get('name')); 
-                }, this);
                 
-       
+           //     el.getItem(function (item, operation) {
+            //        console.log('item', item);
+
+           //         alert(item.get('name'));
+             //   }, this);
+                var grid = Ext.ComponentQuery.query('#cartgrid')[0];
                 
+                console.log('cart grid', grid.store);
+               // grid.store.load();
+             //   grid.store.add(el);
+               //  grid.store.sync();
+
+                        //  grid.getView().refresh();
+
+
             } else
             {
                 var cart = tabs.child('#cart');

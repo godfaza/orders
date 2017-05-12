@@ -28,6 +28,14 @@
         <servlet-name>DeleteItemServlet</servlet-name>
         <servlet-class>com.orders.DeleteItemServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CreateOrderElemServlet</servlet-name>
+        <servlet-class>com.orders.CreateOrderElemServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ReadOrderElemServlet</servlet-name>
+        <servlet-class>com.orders.ReadOrderElemServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -55,6 +63,14 @@
     <servlet-mapping>
         <servlet-name>DeleteItemServlet</servlet-name>
         <url-pattern>/DeleteItemServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateOrderElemServlet</servlet-name>
+        <url-pattern>/CreateOrderElemServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReadOrderElemServlet</servlet-name>
+        <url-pattern>/ReadOrderElemServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

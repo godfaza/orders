@@ -40,6 +40,7 @@ public class OrderElemEntity implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
+    @JsonProperty(name="items_count")
     @Basic(optional = false)
     @Column(name = "ITEMS_COUNT")
     private int itemsCount;

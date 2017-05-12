@@ -1,18 +1,23 @@
 Ext.define('OrdersApp.model.OrderElem', {
     extend: 'Ext.data.Model',
-    fields: ['id', 'order_id', 'item_id', 'items_count', 'item_price'],
-    requires: 'OrdersApp.model.Item',
+    fields: [{name :'id',type: 'int'}, 'order_id', {name : 'item_id',type: 'int'}, 'items_count', 'item_price'],
+ //   requires: 'OrdersApp.model.Item',
    // associations: [{type: 'hasOne', model: 'OrdersApp.model.Item', getterName: 'getItem',primaryKey: 'id',associationKey:'Item', foreignKey: 'item_id'}],
-associations: [{type: 'hasOne', model: 'OrdersApp.model.Item', getterName: 'getItem',setterName: 'setItem',associationKey: 'item',foreignKey: 'item_id'}],
+//associations: [{type: 'hasOne', model: 'OrdersApp.model.Item', getterName: 'getItem',setterName: 'setItem',foreignKey: 'item_id', autoLoad: true}],
+//  associations: [
+//        { type: 'belongsTo', model: 'OrdersApp.model.Item', primaryKey: 'id', foreignKey: 'item_id' }
+//    ],
     proxy: {
         type: 'ajax',
         api: {
             read: '/Orders/ReadOrderElemServlet',
-            update: '/Orders/UpdateOrderElemServlet'
+            update: '/Orders/UpdateOrderElemServlet',
+            create: '/Orders/CreateOrderElemServlet'
         },
 
         actionMethods: {
-            read: 'POST'
+            read: 'GET',
+            write: 'POST'
         },
         reader: {
             type: 'json'
