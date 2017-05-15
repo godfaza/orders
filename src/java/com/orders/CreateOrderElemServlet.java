@@ -8,6 +8,7 @@ package com.orders;
 import com.orders.dao.ItemEntity;
 import com.orders.dao.OrderElemEntity;
 import com.orders.misc.JsonReply;
+import com.orders.misc.OrderElemWrapper;
 import com.owlike.genson.Genson;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -84,9 +85,10 @@ public class CreateOrderElemServlet extends HttpServlet {
        response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
      //   out.println(jsonstring);
-        OrderElemEntity c = new Genson().deserialize(jsonstring, OrderElemEntity.class);
-    out.println(c.getItemId().getName());
-    /*    EntityManagerFactory factory;
+        OrderElemWrapper wr = new Genson().deserialize(jsonstring, OrderElemWrapper.class);
+        OrderElemEntity c = new OrderElemEntity(wr);
+       
+        EntityManagerFactory factory;
         factory = Persistence.createEntityManagerFactory("OrdersPU");
         EntityManager em = factory.createEntityManager();
      //   try {
@@ -97,7 +99,7 @@ public class CreateOrderElemServlet extends HttpServlet {
             
             JsonReply reply = new JsonReply(true, 1);
             String json = new Genson().serialize(reply);
-            out.println(json);*/
+            out.println(json);
     //    } catch (Exception e) {
     //        JsonReply reply = new JsonReply(false, 1);
     //        String json = new Genson().serialize(reply);

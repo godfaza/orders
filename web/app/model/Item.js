@@ -1,9 +1,9 @@
 Ext.define('OrdersApp.model.Item', {
     extend: 'Ext.data.Model',
     fields: [{name :'id',type: 'int'}, 'name','code','price','category'],
-    requires: 'OrdersApp.model.OrderElem',
-    hasMany: {model: 'OrdersApp.model.OrderElem', name: 'elements',foreignKey:'item_id',
-        associationKey:'elements'},
+//   requires: 'OrdersApp.model.OrderElem',
+ //   hasMany: {model: 'OrdersApp.model.OrderElem', name: 'elements',foreignKey:'item_id',
+  //      associationKey:'elements'},
 
     proxy: {
         type: 'ajax',

@@ -5,11 +5,15 @@
  */
 package com.orders.dao;
 
+import com.orders.misc.OrderElemWrapper;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,6 +21,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -40,7 +46,6 @@ public class OrderElemEntity implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    @JsonProperty(name="items_count")
     @Basic(optional = false)
     @Column(name = "ITEMS_COUNT")
     private int itemsCount;
@@ -56,6 +61,26 @@ public class OrderElemEntity implements Serializable {
 
     public OrderElemEntity() {
     }
+
+    public OrderElemEntity(OrderElemWrapper wr) {
+        EntityManagerFactory factory;
+        factory = Persistence.createEntityManagerFactory("OrdersPU");
+        EntityManager em = factory.createEntityManager();
+        
+        Query q = em.createNamedQuery("ItemEntity.findById");
+        q.setParameter("id", wr.getItem_id());
+        ItemEntity ie = (ItemEntity)q.getSingleResult();
+        
+        q = em.createNamedQuery("OrdersEntity.findById");
+        q.setParameter("id", wr.getOrder_id());
+        OrdersEntity oe = (OrdersEntity) q.getSingleResult();
+        
+        this.itemId = ie;
+        this.itemsCount = wr.getItems_count();
+        this.orderId = oe;
+        this.itemPrice = wr.getItem_price();
+    }  
+    
 
     public OrderElemEntity(Integer id) {
         this.id = id;
@@ -130,5 +155,5 @@ public class OrderElemEntity implements Serializable {
     public String toString() {
         return "com.orders.OrderElemEntity[ id=" + id + " ]";
     }
-    
+
 }

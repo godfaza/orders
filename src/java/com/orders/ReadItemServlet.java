@@ -43,7 +43,7 @@ public class ReadItemServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ReadItemServlet</title>");            
+            out.println("<title>Servlet ReadItemServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ReadItemServlet at " + request.getContextPath() + "</h1>");
@@ -64,21 +64,44 @@ public class ReadItemServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       response.setContentType("application/json");    
-    PrintWriter out = response.getWriter();
-    EntityManagerFactory factory;
-    factory = Persistence.createEntityManagerFactory("OrdersPU");
-    EntityManager em = factory.createEntityManager();
-                    // read the existing entries and write to json object and then to output stream
-    Query q = em.createNamedQuery("ItemEntity.findAll");
-    List<ItemEntity> cList = q.getResultList();
-  //   response.setContentType("text/html;charset=UTF-8");
-  //  out.println(cList.get(0).getName());
-    
-        ItemsWrapper wr = new ItemsWrapper(cList,true,cList.size());
-     String json = new Genson().serialize(wr);
-     out.println(json);
         
+        
+        response.setContentType("application/json");
+        String id = request.getParameter("id");
+        PrintWriter out = response.getWriter();
+        
+        if (id == null) {
+         
+            EntityManagerFactory factory;
+            factory = Persistence.createEntityManagerFactory("OrdersPU");
+            EntityManager em = factory.createEntityManager();
+            // read the existing entries and write to json object and then to output stream
+            Query q = em.createNamedQuery("ItemEntity.findAll");
+            List<ItemEntity> cList = q.getResultList();
+            //   response.setContentType("text/html;charset=UTF-8");
+            //  out.println(cList.get(0).getName());
+
+            ItemsWrapper wr = new ItemsWrapper(cList, true, cList.size());
+            String json = new Genson().serialize(wr);
+            out.println(json);
+        }
+        else
+        {
+       
+            EntityManagerFactory factory;
+            factory = Persistence.createEntityManagerFactory("OrdersPU");
+            EntityManager em = factory.createEntityManager();
+            // read the existing entries and write to json object and then to output stream
+            Query q = em.createNamedQuery("ItemEntity.findById");
+            q.setParameter("id", Integer.parseInt(id));
+            List<ItemEntity> cList = q.getResultList();
+            //   response.setContentType("text/html;charset=UTF-8");
+            //  out.println(cList.get(0).getName());
+
+            ItemsWrapper wr = new ItemsWrapper(cList, true, cList.size());
+            String json = new Genson().serialize(wr);
+            out.println(json);
+        }
     }
 
     /**
@@ -92,7 +115,7 @@ public class ReadItemServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-      
+
     }
 
     /**

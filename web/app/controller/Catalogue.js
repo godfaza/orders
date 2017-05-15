@@ -55,50 +55,86 @@ Ext.define('OrdersApp.controller.Catalogue', {
                     itemId: 'cart',
                     title: 'Kорзина',
                     icon: 'resources/cart-2x.png',
+
+                    dockedItems: [{
+                            xtype: 'toolbar',
+                            docked: 'bottom',
+                            items: [{text: 'Удалить товар', itemId: 'delfromcart', icon: 'resources/delete-2x.png'},
+                                {text: 'Оформить заказ', itemId: 'checkout', hidden: false, icon: 'resources/check-2x.png'} 
+                               ]
+                       }],
                     items: [{xtype: 'grid',
                             itemId: 'cartgrid',
                             model: 'OrderElem',
                             store: 'OrderElem',
 
                             columns: [
-                                {text: 'Товар', dataIndex: 'item.name'},
+                                {text: 'Товар', dataIndex: 'id', renderer: function (value, metaData, record, rowIdx, colIdx, store, view) {
+                                        return record.getItem().get('name');
+                                    }},
                                 {text: 'Кол-во', dataIndex: 'items_count'},
                                 {text: 'Цена', dataIndex: 'price'}
                             ]}]
                 }));
 
-                var el = selectedRecord.elements();
-                el.add({'items_count':166,'order_id':1});  
-                console.log('ELEM', el.getAt(0));
-                el.sync();
-             /*   var el = new OrdersApp.model.OrderElem({
-                    id: 1,
-                    order_id: 1,
-                    item_id: 23,
-                    items_count: 2,
-                    item_price: 10
-                });*/
 
-                
-           //     el.getItem(function (item, operation) {
-            //        console.log('item', item);
+                var el = new OrdersApp.model.OrderElem({'item_price': 22, 'items_count': 1, 'order_id': 1});
 
-           //         alert(item.get('name'));
-             //   }, this);
+                el.setItem(selectedRecord);
+                // el.set('name', selectedRecord.get('name'));
+
+                el.getItem(function (item, operation) {
+                    console.log('Order element item is: ', item);
+                }, this);
+                console.log('Order element is: ', el);
                 var grid = Ext.ComponentQuery.query('#cartgrid')[0];
-                
-                console.log('cart grid', grid.store);
-               // grid.store.load();
-             //   grid.store.add(el);
-               //  grid.store.sync();
 
-                        //  grid.getView().refresh();
+                console.log('cart grid', grid.store);
+                // grid.store.load();
+                grid.store.add(el);
+                //    grid.store.sync();
+
+                //  grid.getView().refresh();
 
 
             } else
             {
                 var cart = tabs.child('#cart');
                 tabs.setActiveTab(cart);
+                var grid = Ext.ComponentQuery.query('#cartgrid')[0];
+
+
+//item in cart check 
+//if item exits only increment the count
+                var recordExists = false;
+                grid.store.each(function (rec) {
+                    if (rec.getItem().get('id') === selectedRecord.get('id'))
+                    {
+                        recordExists = true;
+                        var cur_count = rec.get('items_count');
+                        cur_count++;
+                        rec.set('items_count', cur_count);
+                    }
+                });
+//item in cart check
+                if (!recordExists)
+                {
+                    var el = new OrdersApp.model.OrderElem({'item_price': 22, 'items_count': 1, 'order_id': 1});
+
+                    el.setItem(selectedRecord);
+                    el.set('name', selectedRecord.get('name'));
+
+                    el.getItem(function (item, operation) {
+                        console.log('Order element item is: ', item);
+                    }, this);
+                    console.log('Order element is: ', el);
+                    var grid = Ext.ComponentQuery.query('#cartgrid')[0];
+
+                    console.log('cart grid', grid.store);
+                    // grid.store.load();
+                    grid.store.add(el);
+                }
+
             }
         }
     },
