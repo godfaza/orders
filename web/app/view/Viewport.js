@@ -32,7 +32,7 @@ Ext.define('OrdersApp.view.Viewport', {
                     collapsible: true,
                     title: 'Navigation',
                     width: 150
-                            // could use a TreePanel or AccordionLayout for navigational items
+                          
                 }, {
                     region: 'south',
                     title: 'South Panel',

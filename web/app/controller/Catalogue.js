@@ -25,6 +25,7 @@ Ext.define('OrdersApp.controller.Catalogue', {
         me.control({'#additemwindow_save_btn': {click: me.OnSaveBtn}});
         me.control({'#edititemwindow_close_btn': {click: me.OnEdCloseBtn}});
         me.control({'#edititemwindow_save_btn': {click: me.OnEdSaveBtn}});
+        me.control({'#checkout': {click: me.OnCheckout}});
         console.log('Catalogue controller is initialized!');
         //    var btn = Ext.ComponentQuery.query('button');
         //     console.log(btn);
@@ -60,9 +61,9 @@ Ext.define('OrdersApp.controller.Catalogue', {
                             xtype: 'toolbar',
                             docked: 'bottom',
                             items: [{text: 'Удалить товар', itemId: 'delfromcart', icon: 'resources/delete-2x.png'},
-                                {text: 'Оформить заказ', itemId: 'checkout', hidden: false, icon: 'resources/check-2x.png'} 
-                               ]
-                       }],
+                                {text: 'Оформить заказ', itemId: 'checkout', hidden: false, icon: 'resources/check-2x.png'}
+                            ]
+                        }],
                     items: [{xtype: 'grid',
                             itemId: 'cartgrid',
                             model: 'OrderElem',
@@ -94,7 +95,7 @@ Ext.define('OrdersApp.controller.Catalogue', {
                 grid.store.add(el);
                 //    grid.store.sync();
 
-                //  grid.getView().refresh();
+                grid.getView().refresh();
 
 
             } else
@@ -114,6 +115,7 @@ Ext.define('OrdersApp.controller.Catalogue', {
                         var cur_count = rec.get('items_count');
                         cur_count++;
                         rec.set('items_count', cur_count);
+                        grid.getView().refresh();
                     }
                 });
 //item in cart check
@@ -133,11 +135,26 @@ Ext.define('OrdersApp.controller.Catalogue', {
                     console.log('cart grid', grid.store);
                     // grid.store.load();
                     grid.store.add(el);
+                    grid.getView().refresh();
                 }
 
             }
         }
     },
+
+    OnCheckout: function () {
+        var grid = Ext.ComponentQuery.query('#catgrid')[0];
+        if(grid.store.count())
+        {
+            alert('Все ок  -> Оформляем');
+            grid.store.sync();
+        }
+        else
+        {
+            alert('Корзина пуста');
+        }
+    },
+
     OnCloseBtn: function () {
         var win = Ext.ComponentQuery.query('#additemwindow')[0];
         win.close();
