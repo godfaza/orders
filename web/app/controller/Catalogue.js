@@ -159,10 +159,12 @@ Ext.define('OrdersApp.controller.Catalogue', {
             var orders_store = this.getOrdersStore();
             var grid = Ext.ComponentQuery.query('#cartgrid')[0];
       //      var customer = this.getCustomerStore().getAt(0);
-            var customer = new OrdersApp.model.Customer({'name': 'TEST'});
+             var customer = Ext.create('OrdersApp.model.Customer', {name: 'TEST'});
+           // var customer = new OrdersApp.model.Customer({'name': 'TEST'});
             var order = new OrdersApp.model.Orders({'status': 'Принят'});
             console.log('CUSTOMER',customer);
-           var orders = customer.getOrders();
+            console.log('ORDERS',customer.getOrders());
+       //    var orders = customer.getOrders();
            orders.add(order);
             console.log('CURRENT ORDER',orders);
             grid.store.each(function (rec) {
