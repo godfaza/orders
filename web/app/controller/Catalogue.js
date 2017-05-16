@@ -1,14 +1,14 @@
 
 Ext.define('OrdersApp.controller.Catalogue', {
     extend: 'Ext.app.Controller',
-    models: ['Login', 'Customer', 'Item', 'OrderElem'],
+    models: ['Login', 'Customer', 'Item', 'OrderElem', 'Orders'],
     views: ['Viewport'],
-    stores: ['Login', 'Customer', 'Item'],
+    stores: ['Login', 'Customer', 'Item', 'Orders'],
     refs: [{
             ref: 'Catalogue',
             selector: '#catgrid'
         }],
-    requires: ['OrdersApp.view.Viewport', 'OrdersApp.model.OrderElem'],
+    requires: ['OrdersApp.view.Viewport', 'OrdersApp.model.OrderElem', 'OrdersApp.model.Orders','OrdersApp.model.Customer','OrdersApp.store.Customer'],
 
     init: function () {
         var me = this;
@@ -27,13 +27,7 @@ Ext.define('OrdersApp.controller.Catalogue', {
         me.control({'#edititemwindow_save_btn': {click: me.OnEdSaveBtn}});
         me.control({'#checkout': {click: me.OnCheckout}});
         console.log('Catalogue controller is initialized!');
-        //    var btn = Ext.ComponentQuery.query('button');
-        //     console.log(btn);
-        //     var me = this;
-        //     me.control({'#cinfo_close_btn': {click: me.OnCloseBtn}});
-        //      me.control({'#cinfo_save_btn': {click: me.OnSaveBtn}});
-        //      me.control({'#usermenuinfo': {click: me.onUserMenuInfo}});
-        //       me.control({'#usermenulogout': {click: me.onUserMenuLogout}});
+
 
 
         this.application.on({
@@ -74,13 +68,17 @@ Ext.define('OrdersApp.controller.Catalogue', {
                                         return record.getItem().get('name');
                                     }},
                                 {text: 'Кол-во', dataIndex: 'items_count'},
-                                {text: 'Цена', dataIndex: 'price'}
+                                {text: 'Цена', dataIndex: 'item_price'}
                             ]}]
                 }));
 
 
-                var el = new OrdersApp.model.OrderElem({'item_price': 22, 'items_count': 1, 'order_id': 1});
+                var el = new OrdersApp.model.OrderElem({'items_count': 1, 'order_id': 1});
+                var customer = this.getCustomerStore().getAt(0);
+                var base_price = selectedRecord.get('price');
+                var price_disc = base_price - ((customer.get('discount') / 100.0) * base_price);
 
+                el.set('item_price', price_disc);
                 el.setItem(selectedRecord);
                 // el.set('name', selectedRecord.get('name'));
 
@@ -101,9 +99,9 @@ Ext.define('OrdersApp.controller.Catalogue', {
             } else
             {
                 var cart = tabs.child('#cart');
-                tabs.setActiveTab(cart);
+                //   tabs.setActiveTab(cart);
                 var grid = Ext.ComponentQuery.query('#cartgrid')[0];
-
+                var customer = this.getCustomerStore().getAt(0);
 
 //item in cart check 
 //if item exits only increment the count
@@ -115,17 +113,27 @@ Ext.define('OrdersApp.controller.Catalogue', {
                         var cur_count = rec.get('items_count');
                         cur_count++;
                         rec.set('items_count', cur_count);
+
+                        var base_price = selectedRecord.get('price');
+                        var price_disc = base_price - ((customer.get('discount') / 100.0) * base_price);
+
+                        price_disc = price_disc * cur_count;
+                        rec.set('item_price', price_disc);
+
                         grid.getView().refresh();
                     }
                 });
 //item in cart check
                 if (!recordExists)
                 {
-                    var el = new OrdersApp.model.OrderElem({'item_price': 22, 'items_count': 1, 'order_id': 1});
+                    var el = new OrdersApp.model.OrderElem({'items_count': 1, 'order_id': 1});
+
+                    var base_price = selectedRecord.get('price');
+                    var price_disc = base_price - ((customer.get('discount') / 100.0) * base_price);
+
+                    el.set('item_price', price_disc);
 
                     el.setItem(selectedRecord);
-                    el.set('name', selectedRecord.get('name'));
-
                     el.getItem(function (item, operation) {
                         console.log('Order element item is: ', item);
                     }, this);
@@ -143,13 +151,27 @@ Ext.define('OrdersApp.controller.Catalogue', {
     },
 
     OnCheckout: function () {
-        var grid = Ext.ComponentQuery.query('#catgrid')[0];
-        if(grid.store.count())
+        var grid = Ext.ComponentQuery.query('#cartgrid')[0];
+        if (grid.store.count())
         {
             alert('Все ок  -> Оформляем');
+
+            var orders_store = this.getOrdersStore();
+            var grid = Ext.ComponentQuery.query('#cartgrid')[0];
+      //      var customer = this.getCustomerStore().getAt(0);
+            var customer = new OrdersApp.model.Customer({'name': 'TEST'});
+            var order = new OrdersApp.model.Orders({'status': 'Принят'});
+            console.log('CUSTOMER',customer);
+           var orders = customer.getOrders();
+           orders.add(order);
+            console.log('CURRENT ORDER',orders);
+            grid.store.each(function (rec) {
+                orders.add(rec);
+            });
+            
+           
             grid.store.sync();
-        }
-        else
+        } else
         {
             alert('Корзина пуста');
         }

@@ -3,7 +3,7 @@ Ext.define('OrdersApp.model.Customer', {
     fields: ['id', 'name', 'code', 'address', 'discount'],
     requires: 'OrdersApp.model.Orders',
     HasMany: [
-        {model: 'OrdersApp.model.Orders', primaryKey: 'id', foreignKey: 'customer_id', getterName: 'getOrders', setterName: 'setOrders'}
+        {model: 'OrdersApp.model.Orders', primaryKey: 'id', foreignKey: 'customer_id',name: 'orders', associationKey:'getOrders'}
     ],
     proxy: {
         type: 'ajax',

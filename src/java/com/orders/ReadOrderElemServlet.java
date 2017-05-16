@@ -76,9 +76,9 @@ public class ReadOrderElemServlet extends HttpServlet {
   //   response.setContentType("text/html;charset=UTF-8");
   //  out.println(cList.get(0).getName());
     
-        OrderElemWrapper wr = new OrderElemWrapper(cList,true,cList.size());
-     String json = new Genson().serialize(wr);
-     out.println(json);
+     //   OrderElemWrapper wr = new OrderElemWrapper(cList,true,cList.size());
+  //   String json = new Genson().serialize(wr);
+  //   out.println(json);
     }
 
     /**
