@@ -5,6 +5,7 @@
  */
 package com.orders.dao;
 
+import com.orders.misc.OrdersWrapper;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -12,6 +13,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,12 +23,17 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-
+import java.text.*;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author root
@@ -65,6 +73,28 @@ public class OrdersEntity implements Serializable {
     private CustomerEntity customerId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderId")
     private Collection<OrderElemEntity> orderElemEntityCollection;
+
+    public OrdersEntity(OrdersWrapper wr) {
+        EntityManagerFactory factory;
+        factory = Persistence.createEntityManagerFactory("OrdersPU");
+        EntityManager em = factory.createEntityManager();
+
+        Query q = em.createNamedQuery("CustomerEntity.findById");
+        q.setParameter("id", wr.getCustomer_id());
+        CustomerEntity ce = (CustomerEntity) q.getSingleResult();
+
+        this.customerId = ce;
+        this.orderNumber = wr.getOrder_number();
+        this.status = wr.getStatus();
+        DateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+
+        try {
+            this.orderDate = format.parse(wr.getOrder_date());
+            this.shipmentDate = format.parse(wr.getShipment_date());
+        } catch (ParseException ex) {
+            Logger.getLogger(OrdersEntity.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     public OrdersEntity() {
     }
@@ -160,5 +190,5 @@ public class OrdersEntity implements Serializable {
     public String toString() {
         return "com.orders.OrdersEntity[ id=" + id + " ]";
     }
-    
+
 }

@@ -36,6 +36,10 @@
         <servlet-name>ReadOrderElemServlet</servlet-name>
         <servlet-class>com.orders.ReadOrderElemServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CreateOrdersServlet</servlet-name>
+        <servlet-class>com.orders.CreateOrdersServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -71,6 +75,10 @@
     <servlet-mapping>
         <servlet-name>ReadOrderElemServlet</servlet-name>
         <url-pattern>/ReadOrderElemServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateOrdersServlet</servlet-name>
+        <url-pattern>/CreateOrdersServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

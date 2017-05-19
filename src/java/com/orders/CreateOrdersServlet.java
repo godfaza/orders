@@ -5,10 +5,11 @@
  */
 package com.orders;
 
-import com.orders.dao.ItemEntity;
 import com.orders.dao.OrderElemEntity;
+import com.orders.dao.OrdersEntity;
 import com.orders.misc.JsonReply;
 import com.orders.misc.OrderElemWrapper;
+import com.orders.misc.OrdersWrapper;
 import com.owlike.genson.Genson;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -25,7 +26,7 @@ import org.apache.commons.io.IOUtils;
  *
  * @author root
  */
-public class CreateOrderElemServlet extends HttpServlet {
+public class CreateOrdersServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,10 +45,10 @@ public class CreateOrderElemServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CreateOrderElemServlet</title>");            
+            out.println("<title>Servlet CreateOrdersServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CreateOrderElemServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CreateOrdersServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -65,7 +66,6 @@ public class CreateOrderElemServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-      
 
     }
 
@@ -80,33 +80,28 @@ public class CreateOrderElemServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         String jsonstring = IOUtils.toString(request.getInputStream());
-          response.setContentType("application/json;charset=UTF-8");
-    //   response.setContentType("text/html;charset=UTF-8");
+         //   response.setContentType("application/json;charset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-     //   out.println(jsonstring);
-        OrderElemWrapper wr = new Genson().deserialize(jsonstring, OrderElemWrapper.class);
-        OrderElemEntity c = new OrderElemEntity(wr);
-       
+        //   out.println(jsonstring);
+        OrdersWrapper wr = new Genson().deserialize(jsonstring, OrdersWrapper.class);
+        OrdersEntity o = new OrdersEntity(wr);
+   //     out.println(o.getOrderDate());
+    
         EntityManagerFactory factory;
         factory = Persistence.createEntityManagerFactory("OrdersPU");
         EntityManager em = factory.createEntityManager();
-     //   try {
+        //   try {
         em.getTransaction().begin();
-        em.persist(c);
+        em.persist(o);
         em.getTransaction().commit();
         em.close();
-            
-            JsonReply reply = new JsonReply(true, 1);
-            String json = new Genson().serialize(reply);
-            out.println(json);
-    //    } catch (Exception e) {
-    //        JsonReply reply = new JsonReply(false, 1);
-    //        String json = new Genson().serialize(reply);
-    //        out.println(json);
-    //    }
 
- 
+        JsonReply reply = new JsonReply(true, 1);
+        String json = new Genson().serialize(reply);
+        out.println(json);
     }
 
     /**

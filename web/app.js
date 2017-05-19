@@ -6,9 +6,9 @@ var usr;
 Ext.application({
     name		 : 'OrdersApp',
 	appFolder	 : 'app',
-	controllers  : ['Main','Login','Customer','Catalogue'],
-	models		 : ['User','Login','OrderElem','Parent','Kid'],
-	stores		 : ['Users','Login','OrderElem','Parent','Kid'],
+	controllers  : ['Main','Login','Customer','Catalogue','Orders'],
+	models		 : ['User','Login','OrderElem','Orders','Parent','Kid'],
+	stores		 : ['Users','Login','OrderElem','Orders','Parent','Kid'],
         views: 'Login' ,
         requires: 'OrdersApp.Roles',
  //   autoCreateViewport: true,

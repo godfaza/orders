@@ -158,28 +158,21 @@ Ext.define('OrdersApp.controller.Catalogue', {
 
             var orders_store = this.getOrdersStore();
             var grid = Ext.ComponentQuery.query('#cartgrid')[0];
-            //      var customer = this.getCustomerStore().getAt(0);
-            
-            Ext.require('OrdersApp.store.Parent'); 
+            var customer = this.getCustomerStore().getAt(0);
+
             var store = this.getParentStore();
 
-            console.log('KIDS', store.getAt(0).kids());
+            var order = new OrdersApp.model.Orders({'status': 'Принят', 'order_date': '19-05-2017 18:01', 'shipment_date': '21-05-2017 00:00', 'order_number': 20867});
+            order.set('customer_id', customer.get('id'));
 
-            /*  var customer = Ext.create('OrdersApp.model.Customer', {name: 'TEST'});
-             // var customer = new OrdersApp.model.Customer({'name': 'TEST'});
-             var order = new OrdersApp.model.Orders({'status': 'Принят'});
-             console.log('CUSTOMER',customer);
-             var orders = customer.orderassoc();
-             console.log('ORDERS',orders);
-             //    
-             orders.add(order);
-             console.log('CURRENT ORDER',orders);
-             grid.store.each(function (rec) {
-             orders.add(rec);
-             });
-             
-             
-             grid.store.sync();*/
+            orders_store.add(order);
+            orders_store.sync();
+
+
+            grid.store.each(function (rec) {
+            });
+
+
         } else
         {
             alert('Корзина пуста');
