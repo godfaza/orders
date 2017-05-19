@@ -3,12 +3,12 @@ Ext.define('OrdersApp.controller.Catalogue', {
     extend: 'Ext.app.Controller',
     models: ['Login', 'Customer', 'Item', 'OrderElem', 'Orders'],
     views: ['Viewport'],
-    stores: ['Login', 'Customer', 'Item', 'Orders'],
+    stores: ['Login', 'Customer', 'Item', 'Orders', 'Parent', 'Kid'],
     refs: [{
             ref: 'Catalogue',
             selector: '#catgrid'
         }],
-    requires: ['OrdersApp.view.Viewport', 'OrdersApp.model.OrderElem', 'OrdersApp.model.Orders','OrdersApp.model.Customer','OrdersApp.store.Customer'],
+    requires: ['OrdersApp.view.Viewport', 'OrdersApp.model.OrderElem', 'OrdersApp.model.Orders', 'OrdersApp.model.Customer', 'OrdersApp.store.Customer'],
 
     init: function () {
         var me = this;
@@ -50,7 +50,7 @@ Ext.define('OrdersApp.controller.Catalogue', {
                     itemId: 'cart',
                     title: 'Kорзина',
                     icon: 'resources/cart-2x.png',
-
+                    requires: ['OrdersApp.model.Orders', 'OrdersApp.model.Customer', 'OrdersApp.store.Customer'],
                     dockedItems: [{
                             xtype: 'toolbar',
                             docked: 'bottom',
@@ -158,21 +158,28 @@ Ext.define('OrdersApp.controller.Catalogue', {
 
             var orders_store = this.getOrdersStore();
             var grid = Ext.ComponentQuery.query('#cartgrid')[0];
-      //      var customer = this.getCustomerStore().getAt(0);
-             var customer = Ext.create('OrdersApp.model.Customer', {name: 'TEST'});
-           // var customer = new OrdersApp.model.Customer({'name': 'TEST'});
-            var order = new OrdersApp.model.Orders({'status': 'Принят'});
-            console.log('CUSTOMER',customer);
-            console.log('ORDERS',customer.getOrders());
-       //    var orders = customer.getOrders();
-           orders.add(order);
-            console.log('CURRENT ORDER',orders);
-            grid.store.each(function (rec) {
-                orders.add(rec);
-            });
+            //      var customer = this.getCustomerStore().getAt(0);
             
-           
-            grid.store.sync();
+            Ext.require('OrdersApp.store.Parent'); 
+            var store = this.getParentStore();
+
+            console.log('KIDS', store.getAt(0).kids());
+
+            /*  var customer = Ext.create('OrdersApp.model.Customer', {name: 'TEST'});
+             // var customer = new OrdersApp.model.Customer({'name': 'TEST'});
+             var order = new OrdersApp.model.Orders({'status': 'Принят'});
+             console.log('CUSTOMER',customer);
+             var orders = customer.orderassoc();
+             console.log('ORDERS',orders);
+             //    
+             orders.add(order);
+             console.log('CURRENT ORDER',orders);
+             grid.store.each(function (rec) {
+             orders.add(rec);
+             });
+             
+             
+             grid.store.sync();*/
         } else
         {
             alert('Корзина пуста');

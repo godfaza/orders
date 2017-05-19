@@ -1,0 +1,19 @@
+{
+    "parent": {
+        "id": 1,
+        "name": "parent1",
+        "kids": [{
+                "id": 11,
+                "name": "child11",
+                "parent_id": 1
+            },
+            {
+                "id": 12,
+                "name": "child12",
+                "parent_id": 1
+            }
+
+
+        ]
+    }
+}
