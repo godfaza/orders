@@ -5,10 +5,8 @@
  */
 package com.orders;
 
-import com.orders.dao.OrderElemEntity;
 import com.orders.dao.OrdersEntity;
-import com.orders.misc.JsonReply;
-import com.orders.misc.OrderElemWrapper;
+import com.orders.misc.ItemListWrapper;
 import com.orders.misc.OrderListWrapper;
 import com.orders.misc.OrdersWrapper;
 import com.owlike.genson.Genson;
@@ -19,17 +17,17 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.io.IOUtils;
 
 /**
  *
  * @author root
  */
-public class CreateOrdersServlet extends HttpServlet {
+public class ReadOrdersServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -48,10 +46,10 @@ public class CreateOrdersServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CreateOrdersServlet</title>");
+            out.println("<title>Servlet ReadOrdersServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CreateOrdersServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ReadOrdersServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -70,6 +68,48 @@ public class CreateOrdersServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        response.setContentType("application/json");
+        String id = request.getParameter("id");
+        PrintWriter out = response.getWriter();
+
+        if (id == null) {
+
+            EntityManagerFactory factory;
+            factory = Persistence.createEntityManagerFactory("OrdersPU");
+            EntityManager em = factory.createEntityManager();
+            // read the existing entries and write to json object and then to output stream
+            Query q = em.createNamedQuery("OrdersEntity.findAll");
+            List<OrdersEntity> cList = q.getResultList();
+            //   response.setContentType("text/html;charset=UTF-8");
+            //  out.println(cList.get(0).getName());
+            List<OrdersWrapper> wr_list = new ArrayList<>();
+            
+            for(OrdersEntity oe:cList)
+            {
+                wr_list.add(new OrdersWrapper(oe));
+            }
+            
+            
+
+            OrderListWrapper wr = new OrderListWrapper(wr_list, true, wr_list.size());
+            String json = new Genson().serialize(wr);
+            out.println(json);
+        } else {
+
+       /*     EntityManagerFactory factory;
+            factory = Persistence.createEntityManagerFactory("OrdersPU");
+            EntityManager em = factory.createEntityManager();
+            // read the existing entries and write to json object and then to output stream
+            Query q = em.createNamedQuery("OrdersEntity.findById");
+            q.setParameter("id", Integer.parseInt(id));
+            List<OrdersEntity> cList = q.getResultList();
+            //   response.setContentType("text/html;charset=UTF-8");
+            //  out.println(cList.get(0).getName());
+
+            OrderListWrapper wr = new OrderListWrapper(cList, true, cList.size());
+            String json = new Genson().serialize(wr);
+            out.println(json);*/
+        }
     }
 
     /**
@@ -84,31 +124,6 @@ public class CreateOrdersServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String jsonstring = IOUtils.toString(request.getInputStream());
-         //   response.setContentType("application/json;charset=UTF-8");
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        List<OrdersWrapper> cList = new ArrayList<>();
-        //   out.println(jsonstring);
-        OrdersWrapper wr = new Genson().deserialize(jsonstring, OrdersWrapper.class);
-        OrdersEntity o = new OrdersEntity(wr);
-   //     out.println(o.getOrderDate());
-    
-        EntityManagerFactory factory;
-        factory = Persistence.createEntityManagerFactory("OrdersPU");
-        EntityManager em = factory.createEntityManager();
-        //   try {
-        em.getTransaction().begin();
-        em.persist(o);
-        em.getTransaction().commit();
-        em.close();
-        
-        OrdersWrapper ou_wr = new OrdersWrapper(o);
-        cList.add(ou_wr);
-        OrderListWrapper reply = new OrderListWrapper(cList,true,1);
-    //    JsonReply reply = new JsonReply(true, 1);
-        String json = new Genson().serialize(reply);
-        out.println(json);
     }
 
     /**

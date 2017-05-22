@@ -10,7 +10,7 @@ Ext.define('OrdersApp.view.OrdersGrid',{
 dockedItems : [{ 
     xtype : 'toolbar',
     docked: 'bottom', 
-    items : [{text:'Создать заказ'},{text:'Редактировать заказ',iconCls:'save-icon16'},{text:'Удалить заказ'}]
+    items : [{text:'Создать заказ'},{text:'Редактировать заказ',iconCls:'save-icon16'},{text:'Удалить заказ',itemId:'delorder'}]
     }],  
 
 

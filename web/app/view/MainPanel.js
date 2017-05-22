@@ -28,7 +28,7 @@ Ext.define('OrdersApp.view.MainPanel', {
         {
             xtype: 'ogrid',
             //  hidden: true,
-            itemId: 'otab'
+            itemId: 'ogrid'
 
         }],
 

@@ -120,7 +120,7 @@ Ext.define('OrdersApp.controller.Catalogue', {
                         price_disc = price_disc * cur_count;
                         rec.set('item_price', price_disc);
 
-                        grid.getView().refresh();
+                      //  grid.getView().refresh();
                     }
                 });
 //item in cart check
@@ -143,7 +143,7 @@ Ext.define('OrdersApp.controller.Catalogue', {
                     console.log('cart grid', grid.store);
                     // grid.store.load();
                     grid.store.add(el);
-                    grid.getView().refresh();
+                //    grid.getView().refresh();
                 }
 
             }
@@ -165,13 +165,33 @@ Ext.define('OrdersApp.controller.Catalogue', {
             var order = new OrdersApp.model.Orders({'status': 'Принят', 'order_date': '19-05-2017 18:01', 'shipment_date': '21-05-2017 00:00', 'order_number': 20867});
             order.set('customer_id', customer.get('id'));
 
+
             orders_store.add(order);
-            orders_store.sync();
+            //     orders_store.sync();
+            //   orders_store.reload();
+
+            //Создаем заказ и добавляем id заказа каждому элементу
+            var current_order_id;
+            orders_store.sync({success: function (batch, opts) {
+                    current_order_id = opts.operations.create[0].get('id');
+                    console.log('CURRENT ORDER ID: ', current_order_id);
+                    grid.store.each(function (rec) {
+                        rec.set('order_id', current_order_id);
+                        console.log('cart item: ', rec);
+                    });
+                    grid.store.sync();
+
+                }});
+
+            //  console.log('current order id: ', current_order_id);
 
 
-            grid.store.each(function (rec) {
-            });
+            //       grid.store.removeAll();
+         //   
 
+            var tabs = Ext.ComponentQuery.query('#pcenter')[0];
+            var cart = tabs.child('#cart');
+            cart.close();
 
         } else
         {

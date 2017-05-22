@@ -5,6 +5,9 @@
  */
 package com.orders.misc;
 
+import com.orders.dao.OrdersEntity;
+import java.text.*;
+
 /**
  *
  * @author root
@@ -30,6 +33,19 @@ public class OrdersWrapper {
         this.customer_id = customer_id;
     }
 
+    public OrdersWrapper(OrdersEntity oe) {
+        this.id = oe.getId();
+        
+         DateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+
+         this.order_date = format.format(oe.getOrderDate());
+         this.shipment_date = format.format(oe.getShipmentDate());
+
+        this.order_number = oe.getOrderNumber();
+        this.status = oe.getStatus();
+        this.customer_id = oe.getCustomerId().getId();
+    }
+    
     public int getId() {
         return id;
     }

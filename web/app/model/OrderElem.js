@@ -15,7 +15,8 @@ Ext.define('OrdersApp.model.OrderElem', {
         api: {
             read: '/Orders/ReadOrderElemServlet',
             update: '/Orders/UpdateOrderElemServlet',
-            create: '/Orders/CreateOrderElemServlet'
+            create: '/Orders/CreateOrderElemServlet',
+            destroy: '/Orders/DeleteOrderElemServlet'
         },
 
         actionMethods: {
