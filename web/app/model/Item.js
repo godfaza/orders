@@ -23,6 +23,7 @@ Ext.define('OrdersApp.model.Item', {
             root: 'data'
            },
         writer: {
+            root:'data',
             type: 'json'
 
         }

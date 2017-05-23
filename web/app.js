@@ -3,18 +3,21 @@ Ext.Loader.setConfig({enabled: true});
 
 var usr;
 
+
 Ext.application({
     name		 : 'OrdersApp',
 	appFolder	 : 'app',
-	controllers  : ['Main','Login','Customer','Catalogue','Orders'],
+	controllers  : ['Main','Login','Customer','Catalogue','Orders','Customers'],
 	models		 : ['User','Login','OrderElem','Orders','Parent','Kid'],
-	stores		 : ['Users','Login','OrderElem','Orders','Parent','Kid'],
+	stores		 : ['Users','Login','OrderElem','Orders','Parent','Kid','Customers'],
         views: 'Login' ,
         requires: 'OrdersApp.Roles',
  //   autoCreateViewport: true,
     launch: function(){
 
            // Ext.create('OrdersApp.view.Login'); 
+           var CurrentUser = Ext.create('OrdersApp.model.Login');
+           var group;
 
              usr = Ext.create('OrdersApp.Roles',{
                 role:'man',

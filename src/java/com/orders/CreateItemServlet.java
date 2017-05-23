@@ -6,7 +6,9 @@
 package com.orders;
 
 import com.orders.dao.ItemEntity;
+import com.orders.misc.ItemListWrapper;
 import com.orders.misc.JsonReply;
+import com.orders.misc.JsonReplyTemplate;
 import com.owlike.genson.Genson;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -78,31 +80,38 @@ public class CreateItemServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String jsonstring = IOUtils.toString(request.getInputStream());
-        //   response.setContentType("application/json;charset=UTF-8");
+  
+             String jsonstring = IOUtils.toString(request.getInputStream());
+        response.setContentType("application/json;charset=UTF-8");
+        //   response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        ItemEntity c = new Genson().deserialize(jsonstring, ItemEntity.class);
 
-        EntityManagerFactory factory;
-        factory = Persistence.createEntityManagerFactory("OrdersPU");
-        EntityManager em = factory.createEntityManager();
-        try {
-        em.getTransaction().begin();
-        em.persist(c);
-        em.getTransaction().commit();
-        em.close();
-            
-            JsonReply reply = new JsonReply(true, 1);
+        if (jsonstring.indexOf('[') == -1) {
+            int first = jsonstring.indexOf(":{");
+            int last = jsonstring.indexOf("}}");
+            String newstr = jsonstring.substring(first + 1, last + 1);
+            EntityManagerFactory factory;
+            factory = Persistence.createEntityManagerFactory("OrdersPU");
+            EntityManager em = factory.createEntityManager();
+
+            ItemEntity ie = new Genson().deserialize(newstr, ItemEntity.class);
+
+            em.getTransaction().begin();
+            em.persist(ie);
+            em.getTransaction().commit();
+
+            em.close();
+            JsonReplyTemplate<ItemEntity> reply = new JsonReplyTemplate(true, 1,ie);
             String json = new Genson().serialize(reply);
             out.println(json);
-        } catch (Exception e) {
-            JsonReply reply = new JsonReply(false, 1);
-            String json = new Genson().serialize(reply);
+
+        } else {
+            ItemListWrapper iList = new Genson().deserialize(jsonstring, ItemListWrapper.class);
+            iList.Save();
+            String json = new Genson().serialize(iList);
             out.println(json);
         }
-
     }
-
     /**
      * Returns a short description of the servlet.
      *

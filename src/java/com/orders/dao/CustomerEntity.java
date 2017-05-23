@@ -56,10 +56,10 @@ public class CustomerEntity implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "DISCOUNT")
     private BigDecimal discount;
-  //  @JsonIgnore
+  @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId")
     private Collection<OrdersEntity> ordersEntityCollection;
-//    @JsonIgnore
+@JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId")
     private Collection<UserEntity> userEntityCollection;
 
@@ -117,20 +117,24 @@ public class CustomerEntity implements Serializable {
         this.discount = discount;
     }
 
+    @JsonIgnore
     @XmlTransient
     public Collection<OrdersEntity> getOrdersEntityCollection() {
         return ordersEntityCollection;
     }
 
+    @JsonIgnore
     public void setOrdersEntityCollection(Collection<OrdersEntity> ordersEntityCollection) {
         this.ordersEntityCollection = ordersEntityCollection;
     }
 
+    @JsonIgnore
     @XmlTransient
     public Collection<UserEntity> getUserEntityCollection() {
         return userEntityCollection;
     }
 
+    @JsonIgnore
     public void setUserEntityCollection(Collection<UserEntity> userEntityCollection) {
         this.userEntityCollection = userEntityCollection;
     }

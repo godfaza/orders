@@ -7,6 +7,9 @@ package com.orders.misc;
 
 import com.orders.dao.ItemEntity;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  *
@@ -21,6 +24,25 @@ public class ItemListWrapper {
         this.data = data;
         this.success = success;
         this.total = total;
+    }
+    
+    public void Save()
+    {
+          
+        EntityManagerFactory factory;
+        factory = Persistence.createEntityManagerFactory("OrdersPU");
+        EntityManager em = factory.createEntityManager();
+
+        for (ItemEntity ie : this.data) {
+
+            em.getTransaction().begin();
+            em.persist(ie);
+            em.getTransaction().commit();
+            
+        }
+        em.close();
+        this.total = data.size();
+        this.success = true;
     }
 
     public List<ItemEntity> getData() {

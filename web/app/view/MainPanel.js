@@ -7,7 +7,9 @@ Ext.define('OrdersApp.view.MainPanel', {
         'OrdersApp.view.OrdersGrid',
         'OrdersApp.view.Catalogue',
         'OrdersApp.view.AddItemWindow',
-         'OrdersApp.view.EditItemWindow'
+         'OrdersApp.view.EditItemWindow',
+         'OrdersApp.view.CustomersGrid',
+         'OrdersApp.view.EditCustomerWindow'
                 //   'OrdersApp.view.Emailpanel',
                 //   'OrdersApp.view.Tabpanel'
     ],
@@ -29,6 +31,12 @@ Ext.define('OrdersApp.view.MainPanel', {
             xtype: 'ogrid',
             //  hidden: true,
             itemId: 'ogrid'
+
+        },
+    {
+            xtype: 'custgrid',
+            hidden: true,
+            itemId: 'customersgrid'
 
         }],
 

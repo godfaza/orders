@@ -6,7 +6,9 @@
 package com.orders;
 
 import com.orders.dao.CustomerEntity;
+import com.orders.dao.ItemEntity;
 import com.orders.misc.CustomerWrapper;
+import com.orders.misc.JsonReplyTemplate;
 import com.owlike.genson.Genson;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -43,7 +45,7 @@ public class FetchCustomerServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet FetchCustomerServlet</title>");            
+            out.println("<title>Servlet FetchCustomerServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet FetchCustomerServlet at " + request.getContextPath() + "</h1>");
@@ -64,7 +66,7 @@ public class FetchCustomerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    //    processRequest(request, response);
+        //    processRequest(request, response);
     }
 
     /**
@@ -78,28 +80,41 @@ public class FetchCustomerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-          response.setContentType("application/json;charset=UTF-8");
+        response.setContentType("application/json;charset=UTF-8");
 // response.setContentType("text/html;charset=UTF-8");
-       // String in = request.getParameter("id");
-        int id = Integer.parseInt(request.getParameter("id"));
-  //       PrintWriter out = response.getWriter();
-//  out.println(id);
-        EntityManagerFactory factory;
-        factory = Persistence.createEntityManagerFactory("OrdersPU");
-        EntityManager em = factory.createEntityManager();
-        Query q = em.createNamedQuery("CustomerEntity.findById");
-        q.setParameter("id", id);
-        List<CustomerEntity> ulst = (List) q.getResultList();
+        String in = request.getParameter("id");
         PrintWriter out = response.getWriter();
-        if (ulst == null || ulst.isEmpty()) {
-   
-        } else {
-            CustomerEntity u = (CustomerEntity)ulst.get(0);
-           // out.println(u.getCode());
-            CustomerWrapper res = new CustomerWrapper(u);
-            String json = new Genson().serialize(res);
+        if (in == null) {
+            EntityManagerFactory factory;
+            factory = Persistence.createEntityManagerFactory("OrdersPU");
+            EntityManager em = factory.createEntityManager();
+            Query q = em.createNamedQuery("CustomerEntity.findAll");
+            List<CustomerEntity> ulst = (List) q.getResultList();
+
+            JsonReplyTemplate<List<CustomerEntity>> reply = new JsonReplyTemplate(true, 1, ulst);
+            String json = new Genson().serialize(reply);
             out.println(json);
-         
+
+        } else {
+            int id = Integer.parseInt(in);
+
+            EntityManagerFactory factory;
+            factory = Persistence.createEntityManagerFactory("OrdersPU");
+            EntityManager em = factory.createEntityManager();
+            Query q = em.createNamedQuery("CustomerEntity.findById");
+            q.setParameter("id", id);
+            List<CustomerEntity> ulst = (List) q.getResultList();
+
+            if (ulst == null || ulst.isEmpty()) {
+
+            } else {
+                CustomerEntity u = (CustomerEntity) ulst.get(0);
+                // out.println(u.getCode());
+                JsonReplyTemplate<CustomerEntity> reply = new JsonReplyTemplate(true, 1, u);
+                String json = new Genson().serialize(reply);
+                out.println(json);
+
+            }
         }
 
     }

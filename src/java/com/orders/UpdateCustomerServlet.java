@@ -7,6 +7,7 @@ package com.orders;
 
 import com.orders.dao.CustomerEntity;
 import com.orders.misc.JsonReply;
+import com.orders.misc.JsonReplyTemplate;
 import com.owlike.genson.Genson;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -81,9 +82,13 @@ public class UpdateCustomerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String jsonstring = IOUtils.toString(request.getInputStream());
+        
+        int first = jsonstring.indexOf(":{");
+            int last = jsonstring.indexOf("}}");
+            String newstr = jsonstring.substring(first + 1, last + 1);
      //   response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        CustomerEntity c = new Genson().deserialize(jsonstring, CustomerEntity.class);
+        CustomerEntity c = new Genson().deserialize(newstr, CustomerEntity.class);
 
         EntityManagerFactory factory;
             factory = Persistence.createEntityManagerFactory("OrdersPU");
@@ -97,9 +102,9 @@ public class UpdateCustomerServlet extends HttpServlet {
             em.close();
             
             
-            JsonReply reply = new JsonReply(true, 1);
-            String json = new Genson().serialize(reply);
-            out.println(json);
+            JsonReplyTemplate<CustomerEntity> reply = new JsonReplyTemplate(true, 1, c);
+                String json = new Genson().serialize(reply);
+                out.println(json);
             }
             catch (Exception e)
             {

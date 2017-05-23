@@ -84,7 +84,8 @@ public class OrdersEntity implements Serializable {
         CustomerEntity ce = (CustomerEntity) q.getSingleResult();
 
         this.customerId = ce;
-        this.orderNumber = wr.getOrder_number();
+     //   this.orderNumber = wr.getOrder_number();
+        this.orderNumber = (long) (new Date().getTime()/1000);
         this.status = wr.getStatus();
         DateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 

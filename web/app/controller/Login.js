@@ -90,10 +90,7 @@ Ext.define('OrdersApp.controller.Login', {
             params: {user: form.getValues().user},
             callback: function (records, operation, success) {
                 if (success === true)
-                    console.log('store records: ', records);
-
-
-                //     {
+               //     {
                 //       console.log(LoginStore); // should return the store-component
                 //   console.log('store records: ',records); // should return an array of at least 1 item
                 //      console.log(LoginStore.isLoaded()); // should be true

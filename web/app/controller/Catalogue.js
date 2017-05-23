@@ -154,7 +154,7 @@ Ext.define('OrdersApp.controller.Catalogue', {
         var grid = Ext.ComponentQuery.query('#cartgrid')[0];
         if (grid.store.count())
         {
-            alert('Все ок  -> Оформляем');
+          //  alert('Все ок  -> Оформляем');
 
             var orders_store = this.getOrdersStore();
             var grid = Ext.ComponentQuery.query('#cartgrid')[0];
@@ -174,12 +174,16 @@ Ext.define('OrdersApp.controller.Catalogue', {
             var current_order_id;
             orders_store.sync({success: function (batch, opts) {
                     current_order_id = opts.operations.create[0].get('id');
+                    current_order_number = opts.operations.create[0].get('order_number');
                     console.log('CURRENT ORDER ID: ', current_order_id);
                     grid.store.each(function (rec) {
                         rec.set('order_id', current_order_id);
                         console.log('cart item: ', rec);
                     });
                     grid.store.sync();
+                    grid.store.removeAll();
+                    var msg = 'Заказ #: '+ current_order_number + ' создан';
+                    alert(msg);
 
                 }});
 
