@@ -22,6 +22,7 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import com.owlike.genson.annotation.JsonIgnore;
+import org.eclipse.persistence.annotations.PrivateOwned;
 /**
  *
  * @author root
@@ -61,6 +62,7 @@ public class CustomerEntity implements Serializable {
     private Collection<OrdersEntity> ordersEntityCollection;
 @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId")
+    @PrivateOwned
     private Collection<UserEntity> userEntityCollection;
 
     public CustomerEntity() {

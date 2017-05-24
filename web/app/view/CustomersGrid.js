@@ -10,7 +10,7 @@ Ext.define('OrdersApp.view.CustomersGrid',{
 dockedItems : [{ 
     xtype : 'toolbar',
     docked: 'bottom', 
-    items : [{text:'Создать заказчика'},{text:'Редактировать заказчика',iconCls:'save-icon16',itemId:'edcustomer'},{text:'Удалить заказчика',itemId:'delcustomer'}]
+    items : [{text:'Создать заказчика',itemId:'addcustomer'},{text:'Редактировать заказчика',iconCls:'save-icon16',itemId:'edcustomer'},{text:'Удалить заказчика',itemId:'delcustomer'}]
     }],  
 
 

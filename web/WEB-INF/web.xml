@@ -7,14 +7,12 @@
             <param-name>encoding</param-name>
             <param-value>UTF-8</param-value>
         </init-param>
- </filter>
-
-  <!-- The mapping for the Set Character Encoding Filter -->
-  <filter-mapping>
+    </filter>
+    <!-- The mapping for the Set Character Encoding Filter -->
+    <filter-mapping>
         <filter-name>setCharacterEncodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
-  </filter-mapping>
-    
+    </filter-mapping>
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>com.orders.LoginServlet</servlet-class>
@@ -55,9 +53,25 @@
         <servlet-name>CreateOrdersServlet</servlet-name>
         <servlet-class>com.orders.CreateOrdersServlet</servlet-class>
     </servlet>
-     <servlet>
+    <servlet>
         <servlet-name>ReadOrdersServlet</servlet-name>
         <servlet-class>com.orders.ReadOrdersServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateLoginServlet</servlet-name>
+        <servlet-class>com.orders.UpdateLoginServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreateCustomerServlet</servlet-name>
+        <servlet-class>com.orders.CreateCustomerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreateLoginServlet</servlet-name>
+        <servlet-class>com.orders.CreateLoginServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteCustomerServlet</servlet-name>
+        <servlet-class>com.orders.DeleteCustomerServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -99,9 +113,25 @@
         <servlet-name>CreateOrdersServlet</servlet-name>
         <url-pattern>/CreateOrdersServlet</url-pattern>
     </servlet-mapping>
-     <servlet-mapping>
+    <servlet-mapping>
         <servlet-name>ReadOrdersServlet</servlet-name>
         <url-pattern>/ReadOrdersServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateLoginServlet</servlet-name>
+        <url-pattern>/UpdateLoginServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateCustomerServlet</servlet-name>
+        <url-pattern>/CreateCustomerServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateLoginServlet</servlet-name>
+        <url-pattern>/CreateLoginServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteCustomerServlet</servlet-name>
+        <url-pattern>/DeleteCustomerServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

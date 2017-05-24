@@ -5,10 +5,13 @@
  */
 package com.orders.dao;
 
+import com.orders.misc.LoginWrapper;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +19,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -61,6 +66,32 @@ public class UserEntity implements Serializable {
     private CustomerEntity customerId;
 
     public UserEntity() {
+    }
+    
+     public UserEntity(LoginWrapper wr) {
+        this.id = wr.getId();
+        this.fullname = wr.getFullname();
+        this.username = wr.getUsername();
+        this.password = wr.getPassword();
+        this.email = wr.getEmail();
+        
+        EntityManagerFactory factory;
+        factory = Persistence.createEntityManagerFactory("OrdersPU");
+        EntityManager em = factory.createEntityManager();
+
+        Query q = em.createNamedQuery("GroupsEntity.findByName");
+        q.setParameter("name", wr.getGroup());
+        GroupsEntity ge = (GroupsEntity) q.getSingleResult();
+        
+        this.groupId = ge;
+
+
+        q = em.createNamedQuery("CustomerEntity.findById");
+        q.setParameter("id", wr.getCustomer_id());
+        CustomerEntity ce = (CustomerEntity) q.getSingleResult();
+        em.close();
+        this.customerId = ce;
+        
     }
 
     public UserEntity(Integer id) {

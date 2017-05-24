@@ -1,9 +1,9 @@
 
 Ext.define('OrdersApp.controller.Main', {
     extend: 'Ext.app.Controller',
-    models: ['User', 'Login', 'Customer'],
+    models: [ 'Login', 'Customer'],
     views: ['Viewport'],
-    stores: ['Users', 'Login', 'Customer'],
+    stores: ['Login', 'Customer'],
     requires: 'OrdersApp.store.Login',
 
     init: function () {

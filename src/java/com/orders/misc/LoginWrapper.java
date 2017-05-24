@@ -13,23 +13,38 @@ import com.orders.dao.UserEntity;
  * @author root
  */
 public class LoginWrapper {
+    private int id;
     private String fullname;
     private String username;
     private String password;
     private String email;
     private String group;
     private int customer_id;
-    private boolean success;
 
-    public LoginWrapper(String fullname, String username, String password, String email, String group, int customer_id, boolean success) {
+    public LoginWrapper(int id, String fullname, String username, String password, String email, String group, int customer_id) {
+        this.id = id;
         this.fullname = fullname;
         this.username = username;
         this.password = password;
         this.email = email;
         this.group = group;
         this.customer_id = customer_id;
-        this.success = success;
     }
+
+    public LoginWrapper() {
+    }
+
+    
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    
+
 
     public String getFullname() {
         return fullname;
@@ -55,9 +70,6 @@ public class LoginWrapper {
         return customer_id;
     }
 
-    public boolean isSuccess() {
-        return success;
-    }
 
     public void setFullname(String fullname) {
         this.fullname = fullname;
@@ -83,9 +95,7 @@ public class LoginWrapper {
         this.customer_id = customer_id;
     }
 
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
+ 
     
 
  
@@ -93,13 +103,13 @@ public class LoginWrapper {
 
     public LoginWrapper(UserEntity user)
     {
+        this.id = user.getId();
         this.fullname = user.getFullname();
         this.username = user.getUsername();
-        this.password = "empty";
+        this.password = user.getPassword();
         this.email = user.getEmail();
         this.group = user.getGroupId().getName();
         this.customer_id = user.getCustomerId().getId();
-        this.success = true;
     }
     
     

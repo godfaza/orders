@@ -1,14 +1,12 @@
-Ext.define('OrdersApp.view.EditCustomerWindow', {
+Ext.define('OrdersApp.view.AddCustomerWindow', {
     extend: 'Ext.window.Window',
-    xtype: 'editcustomerwindow',
-    itemId: 'editcustomerwindow',
+    xtype: 'addcustomerwindow',
+    itemId: 'addcustomerwindow',
     autoShow: true,
     height: 360,
     width: 500,
-    layout: {
-        type: 'fit'
-    },
-    title: 'Заказчик',
+   layout: 'border',
+    title: 'Создать заказчика',
     closeAction: 'destroy',
     closable: true,
     draggable: true,
@@ -24,12 +22,12 @@ Ext.define('OrdersApp.view.EditCustomerWindow', {
                 {
                     xtype: 'button',
                     text: 'Сохранить',
-                    itemId: 'editcustomerwindow_save_btn'
+                    itemId: 'addcustomerwindow_save_btn'
                 },
                 {
                     xtype: 'button',
                     text: 'Закрыть',
-                    itemId: 'editcustomerwindow_close_btn'
+                    itemId: 'addcustomerwindow_close_btn'
                 }
             ]
         }
@@ -39,15 +37,16 @@ Ext.define('OrdersApp.view.EditCustomerWindow', {
     items: [
         {
             xtype: 'form',
-            itemId: 'editcustomerwindow_form',
-
+            itemId: 'addcustomerwindow_login_form',
+            region: 'north',
             bodyPadding: 15,
+            
 
             defaults: {
 
                 xtype: 'textfield',
                 anchor: '100%',
-                labelWidth: 60
+                labelWidth: 100
 
             },
             items: [
@@ -68,20 +67,47 @@ Ext.define('OrdersApp.view.EditCustomerWindow', {
 
                 },
                 {
-                    name: 'name',
-                    fieldLabel: 'Заказчик' ,
-            dataIndex:'name',
-            editable: false
+                    name: 'fullname',
+                    fieldLabel: 'Полное имя' ,
+            dataIndex:'fullname',
+            editable: true
             
 
                 },
                 {
-                    name: 'code',
-                    fieldLabel: 'Код',
-                    dataIndex:'code',
-                    readOnly: true
+                    name: 'email',
+                    fieldLabel: 'Email' ,
+            dataIndex:'email',
+            editable: true
+            
+
+                }
+            ]
+        }, {
+            xtype: 'form',
+            itemId: 'addcustomerwindow_customer_form',
+            region: 'south',
+            bodyPadding: 15,
+            labelWidth:80,
+
+            defaults: {
+
+                xtype: 'textfield',
+                anchor: '100%',
+                labelWidth: 100
+
+            },
+            items: [
+                             
+                {
+                    name: 'name',
+                    fieldLabel: 'Заказчик' ,
+            dataIndex:'name',
+            editable: true
+            
 
                 },
+
                 {
                     name: 'address',
                     fieldLabel: 'Адрес',
@@ -91,8 +117,8 @@ Ext.define('OrdersApp.view.EditCustomerWindow', {
                 {
                     name: 'discount',
                     fieldLabel: 'Скидка',
-                    dataIndex:'discount',
-                    readOnly: true
+                    dataIndex:'discount'
+         
                     
 
                 }
