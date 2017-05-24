@@ -61,8 +61,7 @@ public class CustomerEntity implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId")
     private Collection<OrdersEntity> ordersEntityCollection;
 @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId")
-    @PrivateOwned
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId",orphanRemoval = true)
     private Collection<UserEntity> userEntityCollection;
 
     public CustomerEntity() {
