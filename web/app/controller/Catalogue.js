@@ -120,7 +120,7 @@ Ext.define('OrdersApp.controller.Catalogue', {
                         price_disc = price_disc * cur_count;
                         rec.set('item_price', price_disc);
 
-                      //  grid.getView().refresh();
+                        //  grid.getView().refresh();
                     }
                 });
 //item in cart check
@@ -143,7 +143,7 @@ Ext.define('OrdersApp.controller.Catalogue', {
                     console.log('cart grid', grid.store);
                     // grid.store.load();
                     grid.store.add(el);
-                //    grid.getView().refresh();
+                    //    grid.getView().refresh();
                 }
 
             }
@@ -151,10 +151,12 @@ Ext.define('OrdersApp.controller.Catalogue', {
     },
 
     OnCheckout: function () {
+
+
         var grid = Ext.ComponentQuery.query('#cartgrid')[0];
         if (grid.store.count())
         {
-          //  alert('Все ок  -> Оформляем');
+            //  alert('Все ок  -> Оформляем');
 
             var orders_store = this.getOrdersStore();
             var grid = Ext.ComponentQuery.query('#cartgrid')[0];
@@ -182,7 +184,7 @@ Ext.define('OrdersApp.controller.Catalogue', {
                     });
                     grid.store.sync();
                     grid.store.removeAll();
-                    var msg = 'Заказ #: '+ current_order_number + ' создан';
+                    var msg = 'Заказ #: ' + current_order_number + ' создан';
                     alert(msg);
 
                 }});
@@ -191,7 +193,7 @@ Ext.define('OrdersApp.controller.Catalogue', {
 
 
             //       grid.store.removeAll();
-         //   
+            //   
 
             var tabs = Ext.ComponentQuery.query('#pcenter')[0];
             var cart = tabs.child('#cart');

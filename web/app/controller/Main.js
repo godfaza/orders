@@ -1,7 +1,7 @@
 
 Ext.define('OrdersApp.controller.Main', {
     extend: 'Ext.app.Controller',
-    models: [ 'Login', 'Customer'],
+    models: ['Login', 'Customer'],
     views: ['Viewport'],
     stores: ['Login', 'Customer'],
     requires: 'OrdersApp.store.Login',
@@ -25,6 +25,39 @@ Ext.define('OrdersApp.controller.Main', {
 
     onLoginStoreReady: function ()
     {
+        var updateClock = function () {
+            /*   var MainView = Ext.ComponentQuery.query('mainview')[0];
+             MainView.destroy();
+             window.location.reload();*/
+
+            Ext.Ajax.request({
+                url: '/Orders/CheckSessionStateServlet',
+                params: {
+                    id: 1
+                },
+                success: function (response) {
+                    var text = response.responseText;
+                    console.log(text);
+                    var obj = Ext.decode(response.responseText);
+                    if (obj.success === false) {
+                        var MainView = Ext.ComponentQuery.query('mainview')[0];
+                        MainView.destroy();
+                        window.location.reload();
+                    }
+
+
+                },
+                failure: function (response) {
+                }
+            });
+        };
+
+        var runner = new Ext.util.TaskRunner();
+        var task = runner.start({
+            run: updateClock,
+            interval: 120000
+        });
+
         //      Ext.getBody().mask('Entering....');
         console.log('Login Store is ready!!!');
         var LoginStore = this.getLoginStore();

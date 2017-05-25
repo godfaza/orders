@@ -63,6 +63,8 @@ Ext.define('OrdersApp.controller.Login', {
     onLoginSuccess: function (form, action) {
 
         console.log('Success!');
+
+    
         // var o= {};
         //  var o = Ext.decode(action.response.responseText);
         //   Ext.Msg.show(o);   
@@ -90,14 +92,14 @@ Ext.define('OrdersApp.controller.Login', {
             params: {user: form.getValues().user},
             callback: function (records, operation, success) {
                 if (success === true)
-               //     {
-                //       console.log(LoginStore); // should return the store-component
-                //   console.log('store records: ',records); // should return an array of at least 1 item
-                //      console.log(LoginStore.isLoaded()); // should be true
-                //    console.log(LoginStore.getCount()); // should be > 0
-                //    }
-                //    console.log('Loaded store: ',LoginStore.getProxy().getReader().rawData); 
-                this.application.fireEvent('loginstoreok');
+                    //     {
+                    //       console.log(LoginStore); // should return the store-component
+                    //   console.log('store records: ',records); // should return an array of at least 1 item
+                    //      console.log(LoginStore.isLoaded()); // should be true
+                    //    console.log(LoginStore.getCount()); // should be > 0
+                    //    }
+                    //    console.log('Loaded store: ',LoginStore.getProxy().getReader().rawData); 
+                    this.application.fireEvent('loginstoreok');
             },
             scope: this
         });

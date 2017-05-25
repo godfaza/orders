@@ -110,7 +110,7 @@ CREATE TABLE `OrderElem` (
   PRIMARY KEY (`ID`),
   KEY `ORDER_ID` (`ORDER_ID`),
   KEY `ITEM_ID` (`ITEM_ID`),
-  CONSTRAINT `OrderElem_ibfk_1` FOREIGN KEY (`ORDER_ID`) REFERENCES `Orders` (`ID`) ON DELETE CASCADE, 
+  CONSTRAINT `OrderElem_ibfk_1` FOREIGN KEY (`ORDER_ID`) REFERENCES `Orders` (`ID`),
   CONSTRAINT `OrderElem_ibfk_2` FOREIGN KEY (`ITEM_ID`) REFERENCES `Item` (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -140,7 +140,7 @@ CREATE TABLE `Orders` (
   `STATUS` varchar(100) NOT NULL,
   PRIMARY KEY (`ID`),
   KEY `CUSTOMER_ID` (`CUSTOMER_ID`),
-  CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `Customer` (`ID`) ON DELETE CASCADE
+  CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `Customer` (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -173,7 +173,7 @@ CREATE TABLE `User` (
   KEY `GROUP_ID` (`GROUP_ID`),
   KEY `CUSTOMER_ID` (`CUSTOMER_ID`),
   CONSTRAINT `User_ibfk_1` FOREIGN KEY (`GROUP_ID`) REFERENCES `Groups` (`ID`),
-  CONSTRAINT `User_ibfk_2` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `Customer` (`ID`) ON DELETE CASCADE
+  CONSTRAINT `User_ibfk_2` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `Customer` (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

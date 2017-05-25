@@ -5,28 +5,21 @@
  */
 package com.orders;
 
-import com.orders.dao.UserEntity;
 import com.orders.misc.Result;
 import com.owlike.genson.Genson;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.apache.commons.io.IOUtils;
 
 /**
  *
  * @author root
  */
-public class LoginServlet extends HttpServlet {
+public class CheckSessionStateServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,10 +38,10 @@ public class LoginServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");
+            out.println("<title>Servlet CheckSessionStateServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CheckSessionStateServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -66,8 +59,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        //  processRequest(request, response);
+      
     }
 
     /**
@@ -81,41 +73,24 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        HttpSession session = request.getSession(false);
+       
         response.setContentType("application/json;charset=UTF-8");
-
-        //    String json = IOUtils.toString(request.getInputStream());
-        //        PrintWriter out = response.getWriter();
-        //        out.println(username);  
-        //   HttpSession ses = request.getSession();
-        //   ses.setMaxInactiveInterval(1);
-           HttpSession session = request.getSession();
-      
-        String username = request.getParameter("user");
-        String password = request.getParameter("password");
-
-        EntityManagerFactory factory;
-        factory = Persistence.createEntityManagerFactory("OrdersPU");
-        EntityManager em = factory.createEntityManager();
-        Query q = em.createNamedQuery("UserEntity.findByUsername");
-        q.setParameter("username", username);
-        List<UserEntity> ulst = (List) q.getResultList();
-        PrintWriter out = response.getWriter();
-        if (ulst == null || ulst.isEmpty()) {
-            Result res = new Result(false, "");
+        
+         PrintWriter out = response.getWriter(); 
+         if(session == null){
+             Result res = new Result(false,"SESSION IS INVALID");
             String json = new Genson().serialize(res);
             out.println(json);
-            //    out.println("No such User");  
-        } else {
-            UserEntity u = (UserEntity) ulst.get(0);
-            Result res = new Result(true,"Login was succesfull");
+         }
+         else
+         {
+              Result res = new Result(true,"SESSION IS OK");
             String json = new Genson().serialize(res);
-            out.println(json);
-            //    out.println("username: " + u.getName() + " password: " + u.getPassword());  
-        }
-
-//   PrintWriter out = response.getWriter();
-        //   out.println("Ok!");
-        //  processRequest(request, response);
+            out.println(json); 
+         }
+        
     }
 
     /**

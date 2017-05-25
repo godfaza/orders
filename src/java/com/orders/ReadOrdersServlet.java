@@ -5,6 +5,7 @@
  */
 package com.orders;
 
+import com.orders.dao.CustomerEntity;
 import com.orders.dao.OrdersEntity;
 import com.orders.misc.ItemListWrapper;
 import com.orders.misc.OrderListWrapper;
@@ -13,6 +14,7 @@ import com.owlike.genson.Genson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -70,33 +72,54 @@ public class ReadOrdersServlet extends HttpServlet {
 
         response.setContentType("application/json");
         String id = request.getParameter("id");
+        String customer_id = request.getParameter("customer_id");
         PrintWriter out = response.getWriter();
 
         if (id == null) {
+            if (customer_id == null) {
 
-            EntityManagerFactory factory;
-            factory = Persistence.createEntityManagerFactory("OrdersPU");
-            EntityManager em = factory.createEntityManager();
-            // read the existing entries and write to json object and then to output stream
-            Query q = em.createNamedQuery("OrdersEntity.findAll");
-            List<OrdersEntity> cList = q.getResultList();
-            //   response.setContentType("text/html;charset=UTF-8");
-            //  out.println(cList.get(0).getName());
-            List<OrdersWrapper> wr_list = new ArrayList<>();
-            
-            for(OrdersEntity oe:cList)
-            {
-                wr_list.add(new OrdersWrapper(oe));
+                EntityManagerFactory factory;
+                factory = Persistence.createEntityManagerFactory("OrdersPU");
+                EntityManager em = factory.createEntityManager();
+                // read the existing entries and write to json object and then to output stream
+                Query q = em.createNamedQuery("OrdersEntity.findAll");
+                List<OrdersEntity> cList = q.getResultList();
+                //   response.setContentType("text/html;charset=UTF-8");
+                //  out.println(cList.get(0).getName());
+                List<OrdersWrapper> wr_list = new ArrayList<>();
+
+                for (OrdersEntity oe : cList) {
+                    wr_list.add(new OrdersWrapper(oe));
+                }
+
+                OrderListWrapper wr = new OrderListWrapper(wr_list, true, wr_list.size());
+                String json = new Genson().serialize(wr);
+                out.println(json);
+            } else {
+
+                EntityManagerFactory factory;
+                factory = Persistence.createEntityManagerFactory("OrdersPU");
+                EntityManager em = factory.createEntityManager();
+                // read the existing entries and write to json object and then to output stream
+                Query q = em.createNamedQuery("CustomerEntity.findById");
+                q.setParameter("id", Integer.parseInt(customer_id));
+                CustomerEntity ce = (CustomerEntity)q.getSingleResult();
+                Collection<OrdersEntity> orders = ce.getOrdersEntityCollection();
+                List<OrdersWrapper> wr_list = new ArrayList<>();
+
+                for (OrdersEntity oe : orders) {
+                    wr_list.add(new OrdersWrapper(oe));
+                }
+
+                OrderListWrapper wr = new OrderListWrapper(wr_list, true, wr_list.size());
+                String json = new Genson().serialize(wr);
+                out.println(json);
+
             }
-            
-            
 
-            OrderListWrapper wr = new OrderListWrapper(wr_list, true, wr_list.size());
-            String json = new Genson().serialize(wr);
-            out.println(json);
         } else {
 
-       /*     EntityManagerFactory factory;
+            /*     EntityManagerFactory factory;
             factory = Persistence.createEntityManagerFactory("OrdersPU");
             EntityManager em = factory.createEntityManager();
             // read the existing entries and write to json object and then to output stream
