@@ -10,7 +10,8 @@ Ext.define('OrdersApp.view.MainPanel', {
          'OrdersApp.view.EditItemWindow',
          'OrdersApp.view.CustomersGrid',
          'OrdersApp.view.EditCustomerWindow',
-         'OrdersApp.view.AddCustomerWindow'
+         'OrdersApp.view.AddCustomerWindow',
+         'OrdersApp.view.EditOrderWindow'
                 //   'OrdersApp.view.Emailpanel',
                 //   'OrdersApp.view.Tabpanel'
     ],

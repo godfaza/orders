@@ -5,8 +5,10 @@
  */
 package com.orders;
 
+import com.orders.dao.CustomerEntity;
 import com.orders.dao.ItemEntity;
 import com.orders.misc.JsonReply;
+import com.orders.misc.JsonReplyTemplate;
 import com.owlike.genson.Genson;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -24,7 +26,7 @@ import org.apache.commons.io.IOUtils;
  *
  * @author root
  */
-public class DeleteItemServlet extends HttpServlet {
+public class UpdateItemServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,10 +45,10 @@ public class DeleteItemServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DeleteItemServlet</title>");
+            out.println("<title>Servlet UpdateItemServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet DeleteItemServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet UpdateItemServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -64,7 +66,7 @@ public class DeleteItemServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+    
     }
 
     /**
@@ -78,38 +80,37 @@ public class DeleteItemServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String jsonstring = IOUtils.toString(request.getInputStream());
-
-        PrintWriter out = response.getWriter();
-
-        if (jsonstring.indexOf('[') == -1) {
-            int first = jsonstring.indexOf(":{");
+      String jsonstring = IOUtils.toString(request.getInputStream());
+        
+        int first = jsonstring.indexOf(":{");
             int last = jsonstring.indexOf("}}");
             String newstr = jsonstring.substring(first + 1, last + 1);
-            ItemEntity c = new Genson().deserialize(newstr, ItemEntity.class);
+     //   response.setContentType("application/json;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        ItemEntity c = new Genson().deserialize(newstr, ItemEntity.class);
 
-            EntityManagerFactory factory;
+        EntityManagerFactory factory;
             factory = Persistence.createEntityManagerFactory("OrdersPU");
-            EntityManager em = factory.createEntityManager();
-
+            EntityManager em = factory.createEntityManager(); 
             try {
-                em.getTransaction().begin();
-                Query q = em.createNamedQuery("ItemEntity.findById");
-                q.setParameter("id", c.getId());
-                ItemEntity e = (ItemEntity) q.getSingleResult();
-                em.remove(e);
-                em.getTransaction().commit();
-                em.close();
-
-                JsonReply reply = new JsonReply(true, 1);
+            em.getTransaction().begin();
+             Query q = em.createNamedQuery("ItemEntity.findById");
+            q.setParameter("id", c.getId());
+            em.merge(c);
+            em.getTransaction().commit();
+            em.close();
+            
+            
+            JsonReplyTemplate<ItemEntity> reply = new JsonReplyTemplate(true, 1, c);
                 String json = new Genson().serialize(reply);
                 out.println(json);
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 JsonReply reply = new JsonReply(false, 1);
                 String json = new Genson().serialize(reply);
                 out.println(json);
             }
-        }
     }
 
     /**
