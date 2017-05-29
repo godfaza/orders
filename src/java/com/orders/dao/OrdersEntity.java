@@ -78,7 +78,7 @@ public class OrdersEntity implements Serializable {
         EntityManagerFactory factory;
         factory = Persistence.createEntityManagerFactory("OrdersPU");
         EntityManager em = factory.createEntityManager();
-
+ //       em.getTransaction().begin();
         Query q = em.createNamedQuery("CustomerEntity.findById");
         q.setParameter("id", wr.getCustomer_id());
         CustomerEntity ce = (CustomerEntity) q.getSingleResult();
@@ -90,14 +90,32 @@ public class OrdersEntity implements Serializable {
         DateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 
         try {
+         //   this.orderDate = format.parse(wr.getOrder_date());
+             this.orderDate = new Date();
+            this.shipmentDate = format.parse(wr.getShipment_date());
+        } catch (ParseException ex) {
+            Logger.getLogger(OrdersEntity.class.getName()).log(Level.SEVERE, null, ex);
+        }
+      ////  em.close();
+    }
+
+    public OrdersEntity() {
+    }
+    
+    public void Update(OrdersWrapper wr)        
+    {
+        this.id = wr.getId();
+        this.orderNumber = wr.getOrder_number();
+        this.status = wr.getStatus();
+        
+          DateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+
+        try {
             this.orderDate = format.parse(wr.getOrder_date());
             this.shipmentDate = format.parse(wr.getShipment_date());
         } catch (ParseException ex) {
             Logger.getLogger(OrdersEntity.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    public OrdersEntity() {
     }
 
     public OrdersEntity(Integer id) {
@@ -190,6 +208,10 @@ public class OrdersEntity implements Serializable {
     @Override
     public String toString() {
         return "com.orders.OrdersEntity[ id=" + id + " ]";
+    }
+
+    private Date format(Date date) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

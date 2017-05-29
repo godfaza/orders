@@ -9,7 +9,8 @@ Ext.define('OrdersApp.view.Viewport', {
         'OrdersApp.view.MainPanel',
         'OrdersApp.view.MainToolbar',
         'OrdersApp.view.NewTab',
-        'OrdersApp.view.CustomerInfo'
+        'OrdersApp.view.CustomerInfo',
+        'OrdersApp.view.Elements' 
 
 
                 //   'OrdersApp.view.Emailpanel',

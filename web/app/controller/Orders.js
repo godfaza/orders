@@ -3,7 +3,7 @@ Ext.define('OrdersApp.controller.Orders', {
     extend: 'Ext.app.Controller',
     models: ['Orders', 'Customer'],
     views: ['OrdersGrid'],
-    stores: ['Orders', 'Customer','Customers'],
+    stores: ['Orders', 'Customer', 'Customers'],
     requires: 'OrdersApp.view.Viewport',
     init: function () {
         console.log('Orders controller is initialized!');
@@ -11,7 +11,10 @@ Ext.define('OrdersApp.controller.Orders', {
         me.control({'#delorder': {click: me.OnDelOrder}});
         me.control({'#edorder': {click: me.OnEdOrder}});
         me.control({"#statuscombo": {select: me.onStatusComboSel}
-  });
+        });
+
+        me.control({'#editorderwindow_save_btn': {click: me.OnSaveBtn}});
+        me.control({'#editorderwindow_close_btn': {click: me.OnCloseBtn}});
         //    me.control({'#delorder': {click: me.OnDelOrder}});
         //    me.control({'#cancelbtn': {click: me.OnCancelBtn}});
         this.application.on({
@@ -19,23 +22,48 @@ Ext.define('OrdersApp.controller.Orders', {
             scope: this
         });
     },
-    
-    onStatusComboSel : function()
+
+
+    OnSaveBtn: function()
     {
-      var win = Ext.widget('editorderwindow');
+         var win = Ext.ComponentQuery.query('editorderwindow')[0];
         var form = win.child('#editorderwindow_form');
-        var order = new OrdersApp.model.Orders();
-        form.updateRecord(order);
-         order.set('status','processing');   
-         form.loadRecord(order);
-        // console.log('STATUS COMBO',cellField);
+                var grid = Ext.ComponentQuery.query('#ogrid')[0];
+        var selectedRecord = grid.getSelectionModel().getSelection()[0];
+        form.updateRecord(selectedRecord);
+        this.getOrdersStore().sync();
     },
     
-    OnEdOrder: function()
+    OnCloseBtn: function()
     {
-         var win = Ext.widget('editorderwindow');
+        var win = Ext.ComponentQuery.query('#editorderwindow')[0];
+        win.close();
+    },
+    
+    
+    onStatusComboSel: function (combo, records, eOpts)
+    {
+        var win = Ext.ComponentQuery.query('editorderwindow')[0];
+        var form = win.child('#editorderwindow_form').getForm();
+      //  var order = new OrdersApp.model.Orders();
+        console.log('STATUS COMBO', records[0].get('text'));
+        var rec = records[0].get('text');
+        //  form.updateRecord(order);
+      //  order.set('status', rec);
+        form.setValues({status: rec});
+
+        // console.log('STATUS COMBO',cellField);
+    },
+
+    OnEdOrder: function ()
+    {
+        var win = Ext.widget('editorderwindow');
+        
+       
+        
+        
         var form = win.child('#editorderwindow_form');
-      //  console.log('Customer info form initialized!!!');
+        //  console.log('Customer info form initialized!!!');
         var grid = Ext.ComponentQuery.query('#ogrid')[0];
         var selectedRecord = grid.getSelectionModel().getSelection()[0];
         var customer_rec;
@@ -45,21 +73,32 @@ Ext.define('OrdersApp.controller.Orders', {
                 customer_rec = rec;
             }
         });
+        
+        win.child('label').setText('Заказчик:  ' + customer_rec.get('name'));
         console.log('record info :::: ', selectedRecord);
+
+        if (selectedRecord.get('status') === 'Shipped')
+        {
+            console.log('disabling form');
+            form.query('.field').forEach(function (c) {
+                c.setDisabled(true);
+            });
+            Ext.ComponentQuery.query('#editorderwindow_save_btn')[0].setDisabled(true);
+        }
         form.loadRecord(selectedRecord);
-        form.loadRecord(customer_rec);
+
 
     },
 
     onCustomerStoreReady: function () {
         var store = this.getOrdersStore();
-        if(group==='admin')
-          store.load();
-      else
-      {
-        var customer_id = this.getCustomerStore().getAt(0).get('id');
-        store.load({params: {customer_id: customer_id}, scope: this});
-    }
+        if (group === 'admin')
+            store.load();
+        else
+        {
+            var customer_id = this.getCustomerStore().getAt(0).get('id');
+            store.load({params: {customer_id: customer_id}, scope: this});
+        }
         console.log('ORDERS STORE', store);
 
     },

@@ -18,7 +18,7 @@ dockedItems : [{
 
     columns: [
         { text: 'Номер заказа',  dataIndex: 'order_number' },
-        { text: 'Дата создания', dataIndex: 'order_date' },
+        {  xtype: 'datecolumn' ,text: 'Дата создания', dataIndex: 'order_date', format: 'd-m-Y H:i' },
         { text: 'Состояние', dataIndex: 'status' }
     ],
 	

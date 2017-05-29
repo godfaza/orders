@@ -6,7 +6,7 @@ Ext.define('OrdersApp.view.EditOrderWindow', {
     height: 260,
     width: 360,
     layout: {
-        type: 'fit'
+        type: 'border'
     },
     title: 'Редактировать заказ',
     closeAction: 'destroy',
@@ -38,7 +38,18 @@ Ext.define('OrdersApp.view.EditOrderWindow', {
 
     items: [
         {
+         xtype: 'label',
+         region: 'north',
+        forId: 'myFieldId',
+        text: 'My Awesome Field'
+       // margin: '0 0 0 10'
+    },
+        
+        
+        {
             xtype: 'form',
+             region: 'west',
+              width: 400,
             itemId: 'editorderwindow_form',
 
             bodyPadding: 15,
@@ -51,14 +62,7 @@ Ext.define('OrdersApp.view.EditOrderWindow', {
 
             },
             items: [
-                {
-                    name: 'name',
-                    fieldLabel: 'Закачик',
-                    dataIndex: 'name'
-
-
-
-                },
+      
                 {
                     name: 'order_number',
                     fieldLabel: 'Номер заказа',
@@ -68,13 +72,15 @@ Ext.define('OrdersApp.view.EditOrderWindow', {
 
                 },
                 {
+                    xtype: 'datefield',
                     name: 'order_date',
                     fieldLabel: 'Дата размещения',
                     dataIndex: 'order_date'
-
+              
 
                 },
                 {
+                    xtype: 'datefield',
                     name: 'shipment_date',
                     fieldLabel: 'Дата отгрузки',
                     dataIndex: 'shipment_date'
@@ -82,14 +88,14 @@ Ext.define('OrdersApp.view.EditOrderWindow', {
                 },
                 {
                     xtype: 'combo',
-                    fieldLabel: 'Состояние заказа',
-                    hiddenName: 'status',
+                    fieldLabel: 'Изменить состояние заказа',
+                    hiddenName: 'statuscmb',
                     itemId: 'statuscombo',
                     store: new Ext.data.SimpleStore({
                         data: [
-                            [1, 'accepted'],
-                            [2, 'processing'],
-                            [3, 'shipped']
+                            [1, 'Accepted'],
+                            [2, 'Processing'],
+                            [3, 'Shipped']
                         ],
                         id: 1,
                         fields: ['value', 'text']
@@ -109,7 +115,16 @@ Ext.define('OrdersApp.view.EditOrderWindow', {
 
 
             ]
-        }],
+        },
+         {
+                    region: 'east',
+                    xtype: 'elements'
+                //    border: false,
+                    //  height: 50,
+               //     margins: '0 0 5 0'
+
+                }
+    ],
 
     initComponent: function () {
 

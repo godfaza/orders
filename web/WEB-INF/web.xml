@@ -81,6 +81,10 @@
         <servlet-name>UpdateItemServlet</servlet-name>
         <servlet-class>com.orders.UpdateItemServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UpdateOrdersServlet</servlet-name>
+        <servlet-class>com.orders.UpdateOrdersServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -148,6 +152,10 @@
     <servlet-mapping>
         <servlet-name>UpdateItemServlet</servlet-name>
         <url-pattern>/UpdateItemServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateOrdersServlet</servlet-name>
+        <url-pattern>/UpdateOrdersServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
