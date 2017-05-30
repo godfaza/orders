@@ -28,7 +28,15 @@ public class OrderElemWrapper {
         this.items_count = items_count;
         this.item_price = item_price;
     }
-
+    
+     public OrderElemWrapper(OrderElemEntity e) {
+           this.id = e.getId();
+        this.order_id = e.getOrderId().getId();
+        this.item_id = e.getItemId().getId();
+        this.items_count = e.getItemsCount();
+        this.item_price = e.getItemPrice();
+    }
+    
     public OrderElemWrapper() {
     }
     

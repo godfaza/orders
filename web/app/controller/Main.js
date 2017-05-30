@@ -103,7 +103,9 @@ Ext.define('OrdersApp.controller.Main', {
             mainmenu.show();
 
             //  btn.setText("Changed!!!!!!!!!!!!!");
-            btn = Ext.ComponentQuery.query('#edgood')[0];
+         //   btn = Ext.ComponentQuery.query('#edgood')[0];
+             btn = Ext.ComponentQuery.query('#edorder')[0];
+            btn.show();
             // btn.();
         }
         Ext.getBody().unmask();
@@ -119,6 +121,10 @@ Ext.define('OrdersApp.controller.Main', {
             //  btn.setText("Changed!!!!!!!!!!!!!");
             btn = Ext.ComponentQuery.query('#edgood')[0];
             btn.hide();
+            
+            btn = Ext.ComponentQuery.query('#edorder')[0];
+            btn.hide();
+             
 
 
         }

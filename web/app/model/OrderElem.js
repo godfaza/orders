@@ -24,6 +24,7 @@ Ext.define('OrdersApp.model.OrderElem', {
             write: 'POST'
         },
         reader: {
+            root:'data',
             type: 'json'
         },
         writer: {

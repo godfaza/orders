@@ -5,22 +5,14 @@
  */
 package com.orders;
 
-import com.orders.dao.CustomerEntity;
 import com.orders.dao.ItemEntity;
-import com.orders.dao.OrderElemEntity;
 import com.orders.dao.OrdersEntity;
-import com.orders.misc.ItemsWrapper;
-import com.orders.misc.JsonReplyTemplate;
-import com.orders.misc.OrderElemExtWrapper;
-import com.orders.misc.OrderElemWrapper;
-import com.orders.misc.OrderListWrapper;
+import com.orders.dao.OrdersEntity_;
+import com.orders.misc.JsonReply;
 import com.orders.misc.OrdersWrapper;
 import com.owlike.genson.Genson;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -29,12 +21,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.io.IOUtils;
 
 /**
  *
  * @author root
  */
-public class ReadOrderElemServlet extends HttpServlet {
+public class DeleteOrdersServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -53,10 +46,10 @@ public class ReadOrderElemServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ReadOrderElemServlet</title>");
+            out.println("<title>Servlet DeleteOrdersServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ReadOrderElemServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet DeleteOrdersServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -74,30 +67,8 @@ public class ReadOrderElemServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("application/json");
-        String order_id = request.getParameter("order_id");
-        PrintWriter out = response.getWriter();
+  
 
-        if (order_id != null) {
-
-            EntityManagerFactory factory;
-            factory = Persistence.createEntityManagerFactory("OrdersPU");
-            EntityManager em = factory.createEntityManager();
-            // read the existing entries and write to json object and then to output stream
-            Query q = em.createNamedQuery("OrdersEntity.findById");
-            q.setParameter("id", Integer.parseInt(order_id));
-            OrdersEntity oe = (OrdersEntity) q.getSingleResult();
-            Collection<OrderElemEntity> elements = oe.getOrderElemEntityCollection();
-            List<OrderElemExtWrapper> wr_list = new ArrayList<>();
-
-            for (OrderElemEntity e : elements) {
-                wr_list.add(new OrderElemExtWrapper(e));
-            }
-
-            JsonReplyTemplate<List<OrderElemExtWrapper>> reply = new JsonReplyTemplate(true, wr_list.size(),wr_list);
-            String json = new Genson().serialize(reply);
-            out.println(json);
-        }
     }
 
     /**
@@ -111,6 +82,38 @@ public class ReadOrderElemServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+              String jsonstring = IOUtils.toString(request.getInputStream());
+
+        PrintWriter out = response.getWriter();
+
+        if (jsonstring.indexOf('[') == -1) {
+            int first = jsonstring.indexOf(":{");
+            int last = jsonstring.indexOf("}}");
+            String newstr = jsonstring.substring(first + 1, last + 1);
+            OrdersWrapper ow = new Genson().deserialize(newstr, OrdersWrapper.class);
+
+            EntityManagerFactory factory;
+            factory = Persistence.createEntityManagerFactory("OrdersPU");
+            EntityManager em = factory.createEntityManager();
+
+            try {
+                em.getTransaction().begin();
+                Query q = em.createNamedQuery("OrdersEntity.findById");
+                q.setParameter("id", ow.getId());
+                OrdersEntity e = (OrdersEntity) q.getSingleResult();
+                em.remove(e);
+                em.getTransaction().commit();
+                em.close();
+
+                JsonReply reply = new JsonReply(true, 1);
+                String json = new Genson().serialize(reply);
+                out.println(json);
+            } catch (Exception e) {
+                JsonReply reply = new JsonReply(false, 1);
+                String json = new Genson().serialize(reply);
+                out.println(json);
+            }
+        }
 
     }
 

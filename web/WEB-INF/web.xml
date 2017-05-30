@@ -85,6 +85,14 @@
         <servlet-name>UpdateOrdersServlet</servlet-name>
         <servlet-class>com.orders.UpdateOrdersServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DeleteOrderElemServlet</servlet-name>
+        <servlet-class>com.orders.DeleteOrderElemServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteOrdersServlet</servlet-name>
+        <servlet-class>com.orders.DeleteOrdersServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -156,6 +164,14 @@
     <servlet-mapping>
         <servlet-name>UpdateOrdersServlet</servlet-name>
         <url-pattern>/UpdateOrdersServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteOrderElemServlet</servlet-name>
+        <url-pattern>/DeleteOrderElemServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteOrdersServlet</servlet-name>
+        <url-pattern>/DeleteOrdersServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

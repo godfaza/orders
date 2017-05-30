@@ -3,8 +3,8 @@ Ext.define('OrdersApp.view.EditOrderWindow', {
     xtype: 'editorderwindow',
     itemId: 'editorderwindow',
     autoShow: true,
-    height: 260,
-    width: 360,
+    height: 400,
+    width: 700,
     layout: {
         type: 'border'
     },
@@ -44,12 +44,15 @@ Ext.define('OrdersApp.view.EditOrderWindow', {
         text: 'My Awesome Field'
        // margin: '0 0 0 10'
     },
+
         
         
         {
             xtype: 'form',
              region: 'west',
-              width: 400,
+              width: 300,
+              height: 380,
+                 split: true,
             itemId: 'editorderwindow_form',
 
             bodyPadding: 15,
@@ -116,14 +119,17 @@ Ext.define('OrdersApp.view.EditOrderWindow', {
 
             ]
         },
-         {
+                     {
                     region: 'east',
-                    xtype: 'elements'
+                    xtype: 'elements',
+                      width: 400,
+              height: 380
                 //    border: false,
                     //  height: 50,
                //     margins: '0 0 5 0'
 
                 }
+
     ],
 
     initComponent: function () {

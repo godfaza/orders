@@ -3,25 +3,23 @@ Ext.define('OrdersApp.view.Elements', {
     alias: 'widget.elements',
 
     itemId: 'elements',
-    title: 'Kорзина',
+    title: 'Товары',
     icon: 'resources/cart-2x.png',
-    requires: ['OrdersApp.model.Orders', 'OrdersApp.model.Customer', 'OrdersApp.store.Customer'],
+    requires: ['OrdersApp.model.Orders', 'OrdersApp.model.Customer', 'OrdersApp.store.Customer','OrdersApp.model.Item','OrdersApp.store.Item'],
     dockedItems: [{
             xtype: 'toolbar',
             docked: 'bottom',
-            items: [{text: 'Удалить товар', itemId: 'delfromcart', icon: 'resources/delete-2x.png'},
-                {text: 'Оформить заказ', itemId: 'checkout', hidden: false, icon: 'resources/check-2x.png'}
+            items: [{text: 'Удалить элемент заказа', itemId: 'delelement', icon: 'resources/delete-2x.png'}
+             /*   {text: 'Редактировать элемент заказа', itemId: 'edelement', hidden: false, icon: 'resources/check-2x.png'}*/
             ]
         }],
     items: [{xtype: 'grid',
             itemId: 'elementsgrid',
-            model: 'OrderElem',
-            store: 'OrderElem',
+            model: 'OrderElemExtended',
+            store: 'OrderElemExtended',
 
             columns: [
-                {text: 'Товар', dataIndex: 'id', renderer: function (value, metaData, record, rowIdx, colIdx, store, view) {
-                        return record.getItem().get('name');
-                    }},
+                {text: 'Товар', dataIndex: 'item_name' },
                 {text: 'Кол-во', dataIndex: 'items_count'},
                 {text: 'Цена', dataIndex: 'item_price'}
             ]}]

@@ -1,9 +1,9 @@
 
 Ext.define('OrdersApp.controller.Catalogue', {
     extend: 'Ext.app.Controller',
-    models: ['Login', 'Customer', 'Item', 'OrderElem', 'Orders'],
+    models: ['Login', 'Customer', 'Item', 'OrderElemExtended', 'Orders'],
     views: ['Viewport'],
-    stores: ['Login', 'Customer', 'Item', 'Orders', 'Parent', 'Kid'],
+    stores: ['Login', 'Customer', 'Item', 'Orders', 'Parent', 'Kid','OrderElemExtended'],
     refs: [{
             ref: 'Catalogue',
             selector: '#catgrid'
