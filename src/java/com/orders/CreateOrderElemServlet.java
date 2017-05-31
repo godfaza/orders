@@ -93,6 +93,7 @@ public class CreateOrderElemServlet extends HttpServlet {
             EntityManagerFactory factory;
             factory = Persistence.createEntityManagerFactory("OrdersPU");
             EntityManager em = factory.createEntityManager();
+           
 
             OrderElemWrapper oew = new Genson().deserialize(newstr, OrderElemWrapper.class);
 

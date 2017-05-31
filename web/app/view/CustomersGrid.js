@@ -11,7 +11,21 @@ dockedItems : [{
     xtype : 'toolbar',
     docked: 'bottom', 
     items : [{text:'Создать заказчика',itemId:'addcustomer'},{text:'Редактировать заказчика',iconCls:'save-icon16',itemId:'edcustomer'},{text:'Удалить заказчика',itemId:'delcustomer'}]
-    }],  
+    },
+ {
+            xtype: 'toolbar',
+            docked: 'bottom',
+            items: [{
+                    xtype: 'textfield',
+                    fieldLabel: 'Поиск',
+                    name: 'search',
+                    itemId: 'customersearch',
+                    emptyText: 'Поиск по имени заказчика',
+                    allowBlank: true,
+                    selectOnFocus: true,
+                    width: 250
+                }, {text: 'Применить', itemId: 'customersearchapply', icon: 'resources/cart-2x.png'}, {text: 'Сбросить', itemId: 'customersearchreset', icon: 'resources/cart-2x.png'}]
+        }],  
 
 
     

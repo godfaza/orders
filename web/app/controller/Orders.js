@@ -16,12 +16,62 @@ Ext.define('OrdersApp.controller.Orders', {
         me.control({'#editorderwindow_save_btn': {click: me.OnSaveBtn}});
         me.control({'#editorderwindow_close_btn': {click: me.OnCloseBtn}});
         me.control({'#delelement': {click: me.OnDelOrderElem}});
+        me.control({'#ordersearchapply': {click: me.OnSearchApply}});
+        me.control({'#ordersearchreset': {click: me.OnSearchReset}});
         //    me.control({'#delorder': {click: me.OnDelOrder}});
         //    me.control({'#cancelbtn': {click: me.OnCancelBtn}});
         this.application.on({
             customerstoreok: this.onCustomerStoreReady,
             scope: this
         });
+    },
+
+    OnSearchApply: function () {
+        this.getOrdersStore().clearFilter(true);
+        var textfield = Ext.ComponentQuery.query('#ordersearch')[0];
+        var text = textfield.getRawValue();
+        var s = Ext.ComponentQuery.query('#startorderdate')[0];
+        var e = Ext.ComponentQuery.query('#endorderdate')[0];
+        var start = s.getValue();
+        var end = e.getValue();
+        console.log(start);
+        console.log(end);
+        //  this.getItemStore().filter('name',text);
+
+
+
+        if (Ext.ComponentQuery.query('#orderradionumber')[0].getValue() === true)
+            this.getOrdersStore().filter('order_number', text);
+    //    if (Ext.ComponentQuery.query('#orderradiodate')[0].getValue() === true)
+   //     {
+   
+        //  this.getOrdersStore().filter('order_date', date);
+        if (Ext.ComponentQuery.query('#orderradiostatus')[0].getValue() === true)
+            this.getOrdersStore().filter('status', text);
+        
+   if(start !== null && end !== null)
+            this.getOrdersStore().filter(
+                   Ext.create('Ext.util.Filter',{ filterFn: function (record) {
+                            console.log(record);
+                          //  alert(record.data.datetime);
+                            return (record.get('order_date') >= start && record.get('order_date') <= end);
+                        }
+                    })
+                    );
+
+    },
+
+    OnSearchReset: function () {
+
+        this.getOrdersStore().clearFilter(true);
+         var store = this.getOrdersStore();
+        if (group === 'admin')
+            store.load();
+        else
+        {
+            var customer_id = this.getCustomerStore().getAt(0).get('id');
+            store.load({params: {customer_id: customer_id}, scope: this});
+        }
     },
 
     OnDelOrderElem: function ()
@@ -140,20 +190,19 @@ Ext.define('OrdersApp.controller.Orders', {
     },
 
     OnDelOrder: function () {
-        
+
 
         var grid = Ext.ComponentQuery.query('#ogrid')[0];
         var selectedRecord = grid.getSelectionModel().getSelection()[0];
 
 
-        if (group === 'user' && (selectedRecord.get('status')==='Shipped') )
+        if (group === 'user' && (selectedRecord.get('status') === 'Shipped'))
         {
             alert('Заказ уже отгружен - удалить невозможно!');
-        }
-        else
+        } else
         {
-        grid.store.remove(selectedRecord);
-        grid.store.sync();
+            grid.store.remove(selectedRecord);
+            grid.store.sync();
         }
 
     }

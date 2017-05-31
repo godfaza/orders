@@ -83,10 +83,15 @@ public class ReadOrderElemServlet extends HttpServlet {
             EntityManagerFactory factory;
             factory = Persistence.createEntityManagerFactory("OrdersPU");
             EntityManager em = factory.createEntityManager();
+       //     em.getEntityManagerFactory().getCache().evictAll();
             // read the existing entries and write to json object and then to output stream
             Query q = em.createNamedQuery("OrdersEntity.findById");
             q.setParameter("id", Integer.parseInt(order_id));
             OrdersEntity oe = (OrdersEntity) q.getSingleResult();
+            //обновляем OrdersEntity - без этого коллекция дочерних эл-тов возвращается
+            //пустой до перезарузки tomcat
+            //еще можно обновить кэш eclipselink так: em.getEntityManagerFactory().getCache().evictAll();
+            em.refresh(oe);
             Collection<OrderElemEntity> elements = oe.getOrderElemEntityCollection();
             List<OrderElemExtWrapper> wr_list = new ArrayList<>();
 

@@ -93,14 +93,18 @@ Ext.define('OrdersApp.controller.Main', {
 
         var usermenu = Ext.ComponentQuery.query('#usermenu')[0];
         usermenu.setText(storedata);
+       Ext.ComponentQuery.query('#catradioname')[0].setValue(true);
+       Ext.ComponentQuery.query('#orderradionumber')[0].setValue(true);
+       
+       
+       
 
         if (group === 'admin')
         {
             btn = Ext.ComponentQuery.query('#additem')[0];
             btn.show();
 
-            mainmenu = Ext.ComponentQuery.query('#customers_item')[0];
-            mainmenu.show();
+  
 
             //  btn.setText("Changed!!!!!!!!!!!!!");
          //   btn = Ext.ComponentQuery.query('#edgood')[0];

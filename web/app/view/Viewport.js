@@ -10,7 +10,9 @@ Ext.define('OrdersApp.view.Viewport', {
         'OrdersApp.view.MainToolbar',
         'OrdersApp.view.NewTab',
         'OrdersApp.view.CustomerInfo',
-        'OrdersApp.view.Elements' 
+        'OrdersApp.view.Elements',
+        'OrdersApp.view.SearchBar',
+        'OrdersApp.view.StatusBar'
 
 
                 //   'OrdersApp.view.Emailpanel',
@@ -29,25 +31,16 @@ Ext.define('OrdersApp.view.Viewport', {
 
                 }
                 , {
-                    region: 'west',
-                    collapsible: true,
-                    title: 'Navigation',
-                    width: 150
-                          
-                }, {
                     region: 'south',
-                    title: 'South Panel',
-                    collapsible: true,
-                    html: 'Information goes here',
+                    title: 'Состояние',
+                    xtype: 'statuspanel',
+                    //   hidden: true,
+                    //     itemId: 'pcenter'
+                    //  collapsible: true,
+                    //    html: 'Information goes here',
                     split: true,
-                    height: 100,
+                    height: 10,
                     minHeight: 100
-                }, {
-                    region: 'east',
-                    title: 'East Panel',
-                    collapsible: true,
-                    split: true,
-                    width: 150
                 }, {
                     region: 'center',
                     xtype: 'pcenter',

@@ -3,7 +3,7 @@ Ext.define('OrdersApp.controller.Catalogue', {
     extend: 'Ext.app.Controller',
     models: ['Login', 'Customer', 'Item', 'OrderElemExtended', 'Orders'],
     views: ['Viewport'],
-    stores: ['Login', 'Customer', 'Item', 'Orders', 'Parent', 'Kid','OrderElemExtended'],
+    stores: ['Login', 'Customer', 'Item', 'Orders', 'Parent', 'Kid', 'OrderElemExtended'],
     refs: [{
             ref: 'Catalogue',
             selector: '#catgrid'
@@ -26,6 +26,8 @@ Ext.define('OrdersApp.controller.Catalogue', {
         me.control({'#edititemwindow_close_btn': {click: me.OnEdCloseBtn}});
         me.control({'#edititemwindow_save_btn': {click: me.OnEdSaveBtn}});
         me.control({'#checkout': {click: me.OnCheckout}});
+        me.control({'#catsearchapply': {click: me.OnSearchApply}});
+        me.control({'#catsearchreset': {click: me.OnSearchReset}});
         console.log('Catalogue controller is initialized!');
 
 
@@ -38,6 +40,26 @@ Ext.define('OrdersApp.controller.Catalogue', {
 
     },
 
+    OnSearchApply: function () {
+           this.getItemStore().clearFilter(true);
+        var textfield = Ext.ComponentQuery.query('#catsearch')[0];
+        var text = textfield.getRawValue();
+        //  this.getItemStore().filter('name',text);
+
+
+
+        if (Ext.ComponentQuery.query('#catradioname')[0].getValue() === true)
+            this.getItemStore().filter('name', text);
+        else
+            this.getItemStore().filter('category', text);
+
+    },
+
+    OnSearchReset: function () {
+
+        this.getItemStore().clearFilter(true);
+        this.getItemStore().load();
+    },
     OnAddToCart: function () {
         var tabs = Ext.ComponentQuery.query('#pcenter')[0];
         var grid = Ext.ComponentQuery.query('#catgrid')[0];
