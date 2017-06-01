@@ -41,7 +41,7 @@ Ext.define('OrdersApp.controller.Catalogue', {
     },
 
     OnSearchApply: function () {
-           this.getItemStore().clearFilter(true);
+        this.getItemStore().clearFilter(true);
         var textfield = Ext.ComponentQuery.query('#catsearch')[0];
         var text = textfield.getRawValue();
         //  this.getItemStore().filter('name',text);
@@ -186,7 +186,7 @@ Ext.define('OrdersApp.controller.Catalogue', {
 
             var store = this.getParentStore();
 
-            var order = new OrdersApp.model.Orders({'status': 'Accepted', 'order_date': '19-05-2017 18:01', 'shipment_date': '01-01-1900 00:00', 'order_number': 20867});
+            var order = new OrdersApp.model.Orders({'status': 'Accepted', 'order_date': '2017-05-19 18:01:03', 'shipment_date': '1900-01-01 00:00:03', 'order_number': 20867});
             order.set('customer_id', customer.get('id'));
 
 
@@ -208,6 +208,12 @@ Ext.define('OrdersApp.controller.Catalogue', {
                     grid.store.removeAll();
                     var msg = 'Заказ #: ' + current_order_number + ' создан';
                     alert(msg);
+                    var sb = Ext.ComponentQuery.query('#mystatus')[0];
+                    sb.setStatus({
+                        text: msg,
+                        //  iconCls: 'ok-icon',
+                        clear: true 
+                    });
 
                 }});
 

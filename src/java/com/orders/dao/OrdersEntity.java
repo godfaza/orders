@@ -87,7 +87,7 @@ public class OrdersEntity implements Serializable {
      //   this.orderNumber = wr.getOrder_number();
         this.orderNumber = (long) (new Date().getTime()/1000);
         this.status = wr.getStatus();
-        DateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         try {
          //   this.orderDate = format.parse(wr.getOrder_date());
@@ -108,7 +108,7 @@ public class OrdersEntity implements Serializable {
         this.orderNumber = wr.getOrder_number();
         this.status = wr.getStatus();
         
-          DateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+          DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         try {
             this.orderDate = format.parse(wr.getOrder_date());

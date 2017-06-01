@@ -1,6 +1,6 @@
 Ext.define('OrdersApp.model.Orders', {
     extend: 'Ext.data.Model',
-    fields: ['id','customer_id', {name: 'order_date',type:'date',dateFormat:'d-m-Y H:i'}, {name:'shipment_date',type:'date',dateFormat:'d-m-Y H:i'}, 'order_number', 'status'],
+    fields: ['id','customer_id', {name: 'order_date',type:'date',dateFormat:'Y-m-d H:i:s'}, {name:'shipment_date',type:'date',dateFormat:'Y-m-d H:i:s'}, 'order_number', 'status'],
 
     proxy: {
         type: 'ajax',

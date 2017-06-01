@@ -3,13 +3,14 @@ Ext.define('OrdersApp.view.StatusBar', {
     alias: 'widget.statuspanel',
     
      id: 'my-status',
+     itemId:'mystatus',
 
         // defaults to use when the status is cleared:
-        defaultText: 'Default status text',
+        defaultText: 'Готов',
         defaultIconCls: 'default-icon',
 
         // values to set initially:
-        text: 'Ready',
-        iconCls: 'ready-icon'
+        text: 'Готов',
+       icon: 'resources/thumb-up-2x.png'
   
 });

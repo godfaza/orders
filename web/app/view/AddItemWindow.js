@@ -60,13 +60,6 @@ Ext.define('OrdersApp.view.AddItemWindow', {
 
                 },
                 {
-                    name: 'code',
-                    fieldLabel: 'Код товара',
-                    dataIndex:'code'
-                  
-
-                },
-                {
                     name: 'price',
                     fieldLabel: 'Цена',
                     dataIndex: 'price'

@@ -42,18 +42,18 @@ Ext.define('OrdersApp.controller.Orders', {
 
         if (Ext.ComponentQuery.query('#orderradionumber')[0].getValue() === true)
             this.getOrdersStore().filter('order_number', text);
-    //    if (Ext.ComponentQuery.query('#orderradiodate')[0].getValue() === true)
-   //     {
-   
+        //    if (Ext.ComponentQuery.query('#orderradiodate')[0].getValue() === true)
+        //     {
+
         //  this.getOrdersStore().filter('order_date', date);
         if (Ext.ComponentQuery.query('#orderradiostatus')[0].getValue() === true)
             this.getOrdersStore().filter('status', text);
-        
-   if(start !== null && end !== null)
+
+        if (start !== null && end !== null)
             this.getOrdersStore().filter(
-                   Ext.create('Ext.util.Filter',{ filterFn: function (record) {
+                    Ext.create('Ext.util.Filter', {filterFn: function (record) {
                             console.log(record);
-                          //  alert(record.data.datetime);
+                            //  alert(record.data.datetime);
                             return (record.get('order_date') >= start && record.get('order_date') <= end);
                         }
                     })
@@ -64,7 +64,7 @@ Ext.define('OrdersApp.controller.Orders', {
     OnSearchReset: function () {
 
         this.getOrdersStore().clearFilter(true);
-         var store = this.getOrdersStore();
+        var store = this.getOrdersStore();
         if (group === 'admin')
             store.load();
         else
@@ -201,8 +201,16 @@ Ext.define('OrdersApp.controller.Orders', {
             alert('Заказ уже отгружен - удалить невозможно!');
         } else
         {
+            var msg = 'Заказ #: ' + selectedRecord.get('order_number') + ' удален';
             grid.store.remove(selectedRecord);
             grid.store.sync();
+            var sb = Ext.ComponentQuery.query('#mystatus')[0];
+
+            sb.setStatus({
+                text: msg,
+                //  iconCls: 'ok-icon',
+                clear: true
+            });
         }
 
     }

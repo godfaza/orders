@@ -36,7 +36,7 @@ public class OrdersWrapper {
     public OrdersWrapper(OrdersEntity oe) {
         this.id = oe.getId();
         
-         DateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+         DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
          this.order_date = format.format(oe.getOrderDate());
          this.shipment_date = format.format(oe.getShipmentDate());

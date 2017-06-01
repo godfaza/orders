@@ -6,6 +6,7 @@
 package com.orders;
 
 import com.orders.dao.CustomerEntity;
+import com.orders.misc.IdGen;
 import com.orders.misc.ItemListWrapper;
 import com.orders.misc.JsonReplyTemplate;
 import com.owlike.genson.Genson;
@@ -92,7 +93,8 @@ public class CreateCustomerServlet extends HttpServlet {
             EntityManager em = factory.createEntityManager();
 
             CustomerEntity ce = new Genson().deserialize(newstr, CustomerEntity.class);
-            ce.setCode("1129-6635");
+            IdGen g = new IdGen();
+            ce.setCode(g.GenCustomerId());
             em.getTransaction().begin();
             em.persist(ce);
             em.getTransaction().commit();

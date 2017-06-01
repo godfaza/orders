@@ -6,6 +6,7 @@
 package com.orders;
 
 import com.orders.dao.ItemEntity;
+import com.orders.misc.IdGen;
 import com.orders.misc.ItemListWrapper;
 import com.orders.misc.JsonReply;
 import com.orders.misc.JsonReplyTemplate;
@@ -85,6 +86,7 @@ public class CreateItemServlet extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         //   response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        IdGen gen = new IdGen();
 
         if (jsonstring.indexOf('[') == -1) {
             int first = jsonstring.indexOf(":{");
@@ -95,6 +97,7 @@ public class CreateItemServlet extends HttpServlet {
             EntityManager em = factory.createEntityManager();
 
             ItemEntity ie = new Genson().deserialize(newstr, ItemEntity.class);
+            ie.setCode(gen.GenItemId(ie.getName()));
 
             em.getTransaction().begin();
             em.persist(ie);

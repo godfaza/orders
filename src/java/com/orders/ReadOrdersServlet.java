@@ -104,6 +104,7 @@ public class ReadOrdersServlet extends HttpServlet {
                 Query q = em.createNamedQuery("CustomerEntity.findById");
                 q.setParameter("id", Integer.parseInt(customer_id));
                 CustomerEntity ce = (CustomerEntity)q.getSingleResult();
+               // em.refresh(ce);
                 Collection<OrdersEntity> orders = ce.getOrdersEntityCollection();
                 List<OrdersWrapper> wr_list = new ArrayList<>();
 

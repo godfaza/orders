@@ -44,7 +44,7 @@ Ext.define('OrdersApp.view.OrdersGrid', {
                     name: 'startorderdate',
                     fieldLabel: 'С',
                     itemId: 'startorderdate',
-                    format: 'd-m-Y H:i'
+                    format: 'Y-m-d H:i:s'
                 
 
                 },
@@ -54,7 +54,7 @@ Ext.define('OrdersApp.view.OrdersGrid', {
                     name: 'endorderdate',
                     fieldLabel: 'По',
                     itemId: 'endorderdate',
-                    format: 'd-m-Y H:i'
+                    format: 'Y-m-d H:i:s'
               
 
                 },

@@ -32,8 +32,18 @@ Ext.define('OrdersApp.controller.Customers', {
     {
         var grid = Ext.ComponentQuery.query('#customersgrid')[0];
         var selectedRecord = grid.getSelectionModel().getSelection()[0];
+
+        var msg = 'Заказчик #: ' + selectedRecord.get('name') + ' удален';
         this.getCustomersStore().remove(selectedRecord);
         this.getCustomersStore().sync();
+
+        var sb = Ext.ComponentQuery.query('#mystatus')[0];
+
+        sb.setStatus({
+            text: msg,
+            //  iconCls: 'ok-icon',
+            clear: true
+        });
         //    CustomersStore.reload();
     },
 
@@ -108,6 +118,14 @@ Ext.define('OrdersApp.controller.Customers', {
                 login_rec.set('customer_id', current_customer_id);
                 LoginsStore.add(login_rec);
                 LoginsStore.sync();
+                var msg = 'Заказчик #: ' + opts.operations.create[0].get('name') + ' создан';
+                var sb = Ext.ComponentQuery.query('#mystatus')[0];
+
+                sb.setStatus({
+                    text: msg,
+                    //  iconCls: 'ok-icon',
+                    clear: true
+                });
 
             }});
 

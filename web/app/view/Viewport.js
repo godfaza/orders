@@ -39,8 +39,8 @@ Ext.define('OrdersApp.view.Viewport', {
                     //  collapsible: true,
                     //    html: 'Information goes here',
                     split: true,
-                    height: 10,
-                    minHeight: 100
+                    height: 30,
+                    minHeight: 30
                 }, {
                     region: 'center',
                     xtype: 'pcenter',

@@ -88,8 +88,7 @@ public class LoginServlet extends HttpServlet {
         //        out.println(username);  
         //   HttpSession ses = request.getSession();
         //   ses.setMaxInactiveInterval(1);
-           HttpSession session = request.getSession();
-      
+
         String username = request.getParameter("user");
         String password = request.getParameter("password");
 
@@ -106,6 +105,10 @@ public class LoginServlet extends HttpServlet {
             out.println(json);
             //    out.println("No such User");  
         } else {
+            
+             HttpSession session = request.getSession();
+
+            
             UserEntity u = (UserEntity) ulst.get(0);
             Result res = new Result(true,"Login was succesfull");
             String json = new Genson().serialize(res);
