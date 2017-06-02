@@ -183,7 +183,7 @@ CREATE TABLE `User` (
 
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES (1,'Aleksey Loktev','alok','1234','godfaza@gmail.com',1,1);
+INSERT INTO `User` VALUES (1,'Adminstrator','admin','1234','godfaza@gmail.com',1,1);
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
