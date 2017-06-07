@@ -63,6 +63,7 @@ Ext.define('OrdersApp.controller.Main', {
         var LoginStore = this.getLoginStore();
         storedata = LoginStore.getAt(0).data.fullname;
         group = LoginStore.getAt(0).data.group;
+        current_user = LoginStore.getAt(0).get('username');
         //  console.log('store in grid: ', LoginStore.getAt(0).data.user);
         ///******
         var CustomerStore = this.getCustomerStore();

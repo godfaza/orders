@@ -73,9 +73,34 @@ Ext.define('OrdersApp.controller.Customer', {
         this.application.fireEvent('customerinfoinit');
     },
     onUserMenuLogout: function (option) {
-        var MainView = Ext.ComponentQuery.query('mainview')[0];
-        MainView.destroy();
-        window.location.reload();
+
+
+        Ext.Ajax.request({
+            url: '/Orders/LogoutServlet',
+            params: {
+                user: current_user
+            },
+            success: function (response) {
+                var text = response.responseText;
+                console.log(text);
+                var obj = Ext.decode(response.responseText);
+                if (obj.success === true) {
+                    var MainView = Ext.ComponentQuery.query('mainview')[0];
+                    MainView.destroy();
+                    window.location.reload();
+                }
+
+
+            },
+            failure: function (response) {
+            }
+        });
+
+
+
+        //     var MainView = Ext.ComponentQuery.query('mainview')[0];
+        //     MainView.destroy();
+        //     window.location.reload();
     },
 
     OnCustomerInfoInit: function () {

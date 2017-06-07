@@ -10,6 +10,7 @@ import com.orders.misc.ItemsWrapper;
 import com.owlike.genson.Genson;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -64,14 +65,13 @@ public class ReadItemServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        
+
         response.setContentType("application/json");
         String id = request.getParameter("id");
         PrintWriter out = response.getWriter();
-        
+
         if (id == null) {
-         
+
             EntityManagerFactory factory;
             factory = Persistence.createEntityManagerFactory("OrdersPU");
             EntityManager em = factory.createEntityManager();
@@ -84,19 +84,17 @@ public class ReadItemServlet extends HttpServlet {
             ItemsWrapper wr = new ItemsWrapper(cList, true, cList.size());
             String json = new Genson().serialize(wr);
             out.println(json);
-        }
-        else
-        {
-       
+        } else {
+
             EntityManagerFactory factory;
             factory = Persistence.createEntityManagerFactory("OrdersPU");
             EntityManager em = factory.createEntityManager();
-            // read the existing entries and write to json object and then to output stream
-            Query q = em.createNamedQuery("ItemEntity.findById");
-            q.setParameter("id", Integer.parseInt(id));
-            List<ItemEntity> cList = q.getResultList();
-            //   response.setContentType("text/html;charset=UTF-8");
-            //  out.println(cList.get(0).getName());
+            //          Query q = em.createNamedQuery("ItemEntity.findById");
+            //          q.setParameter("id", Integer.parseInt(id));
+            ItemEntity e = em.find(ItemEntity.class, Integer.parseInt(id));
+            ///         List<ItemEntity> cList = q.getResultList();
+            List<ItemEntity> cList = new ArrayList<>();
+            cList.add(e);
 
             ItemsWrapper wr = new ItemsWrapper(cList, true, cList.size());
             String json = new Genson().serialize(wr);

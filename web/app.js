@@ -16,8 +16,9 @@ Ext.application({
     launch: function(){
 
            // Ext.create('OrdersApp.view.Login'); 
-           var CurrentUser = Ext.create('OrdersApp.model.Login');
+           //var CurrentUser = Ext.create('OrdersApp.model.Login');
            var group;
+           var current_user;
 
              usr = Ext.create('OrdersApp.Roles',{
                 role:'man',

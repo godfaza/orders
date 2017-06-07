@@ -88,7 +88,6 @@ public class LoginServlet extends HttpServlet {
         //        out.println(username);  
         //   HttpSession ses = request.getSession();
         //   ses.setMaxInactiveInterval(1);
-
         String username = request.getParameter("user");
         String password = request.getParameter("password");
 
@@ -105,14 +104,23 @@ public class LoginServlet extends HttpServlet {
             out.println(json);
             //    out.println("No such User");  
         } else {
-            
-             HttpSession session = request.getSession();
 
-            
-            UserEntity u = (UserEntity) ulst.get(0);
-            Result res = new Result(true,"Login was succesfull");
-            String json = new Genson().serialize(res);
-            out.println(json);
+            HttpSession session = request.getSession();
+
+            User user = new User(username);
+            session.setAttribute("User", user);
+            if (request.getSession(false) == null) {
+                
+                Result res = new Result(false, "User: " + username + " already in system!");
+                String json = new Genson().serialize(res);
+                out.println(json);
+            } else {
+                
+                UserEntity u = (UserEntity) ulst.get(0);
+                Result res = new Result(true, "Login was succesfull");
+                String json = new Genson().serialize(res);
+                out.println(json);
+            }
             //    out.println("username: " + u.getName() + " password: " + u.getPassword());  
         }
 

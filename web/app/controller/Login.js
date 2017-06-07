@@ -121,6 +121,7 @@ Ext.define('OrdersApp.controller.Login', {
 
     onLoginFailure: function (form, action) {
         console.log('Failure!');
+        Ext.Msg.alert('Failed', action.result.msg);
 
     },
 
