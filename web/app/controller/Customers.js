@@ -3,7 +3,7 @@ Ext.define('OrdersApp.controller.Customers', {
     extend: 'Ext.app.Controller',
     models: ['Login', 'Customer'],
     views: ['Viewport'],
-    stores: ['Login', 'Customers', 'Logins'],
+    stores: ['Login', 'Customers', 'Logins','Orders'],
     requires: 'OrdersApp.store.Customers',
 
     init: function () {
@@ -36,6 +36,7 @@ Ext.define('OrdersApp.controller.Customers', {
         var msg = 'Заказчик #: ' + selectedRecord.get('name') + ' удален';
         this.getCustomersStore().remove(selectedRecord);
         this.getCustomersStore().sync();
+         this.getOrdersStore().load();
 
         var sb = Ext.ComponentQuery.query('#mystatus')[0];
 

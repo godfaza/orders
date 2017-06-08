@@ -7,11 +7,14 @@ package com.orders;
 
 import com.orders.dao.CustomerEntity;
 import com.orders.dao.ItemEntity;
+import com.orders.dao.UserEntity;
 import com.orders.misc.JsonReply;
 import com.orders.misc.JsonReplyTemplate;
+import com.orders.misc.UserRights;
 import com.owlike.genson.Genson;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -20,6 +23,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.apache.commons.io.IOUtils;
 
 /**
@@ -45,7 +49,7 @@ public class UpdateItemServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UpdateItemServlet</title>");            
+            out.println("<title>Servlet UpdateItemServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet UpdateItemServlet at " + request.getContextPath() + "</h1>");
@@ -66,7 +70,7 @@ public class UpdateItemServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    
+
     }
 
     /**
@@ -80,37 +84,42 @@ public class UpdateItemServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-      String jsonstring = IOUtils.toString(request.getInputStream());
-        
-        int first = jsonstring.indexOf(":{");
-            int last = jsonstring.indexOf("}}");
-            String newstr = jsonstring.substring(first + 1, last + 1);
-     //   response.setContentType("application/json;charset=UTF-8");
+        response.setContentType("application/json;charset=UTF-8");
+        UserRights rights = new UserRights();
+
+        if(!rights.IsAdmin(request, response))
+            return;
+         
         PrintWriter out = response.getWriter();
+          
+        String jsonstring = IOUtils.toString(request.getInputStream());
+
+        int first = jsonstring.indexOf(":{");
+        int last = jsonstring.indexOf("}}");
+        String newstr = jsonstring.substring(first + 1, last + 1);
+         
+
         ItemEntity c = new Genson().deserialize(newstr, ItemEntity.class);
 
         EntityManagerFactory factory;
-            factory = Persistence.createEntityManagerFactory("OrdersPU");
-            EntityManager em = factory.createEntityManager(); 
-            try {
+        factory = Persistence.createEntityManagerFactory("OrdersPU");
+        EntityManager em = factory.createEntityManager();
+        try {
             em.getTransaction().begin();
-             Query q = em.createNamedQuery("ItemEntity.findById");
+            Query q = em.createNamedQuery("ItemEntity.findById");
             q.setParameter("id", c.getId());
             em.merge(c);
             em.getTransaction().commit();
             em.close();
-            
-            
+
             JsonReplyTemplate<ItemEntity> reply = new JsonReplyTemplate(true, 1, c);
-                String json = new Genson().serialize(reply);
-                out.println(json);
-            }
-            catch (Exception e)
-            {
-                JsonReply reply = new JsonReply(false, 1);
-                String json = new Genson().serialize(reply);
-                out.println(json);
-            }
+            String json = new Genson().serialize(reply);
+            out.println(json);
+        } catch (Exception e) {
+            JsonReply reply = new JsonReply(false, 1);
+            String json = new Genson().serialize(reply);
+            out.println(json);
+        }
     }
 
     /**

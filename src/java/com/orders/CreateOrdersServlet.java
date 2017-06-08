@@ -85,8 +85,8 @@ public class CreateOrdersServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String jsonstring = IOUtils.toString(request.getInputStream());
-        //   response.setContentType("application/json;charset=UTF-8");
-        response.setContentType("text/html;charset=UTF-8");
+           response.setContentType("application/json;charset=UTF-8");
+ 
         PrintWriter out = response.getWriter();
         List<OrdersWrapper> cList = new ArrayList<>();
         //   out.println(jsonstring);

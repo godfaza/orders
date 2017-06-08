@@ -66,10 +66,11 @@ public class ReadItemServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        response.setContentType("application/json");
+               
         String id = request.getParameter("id");
+        response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
-
+        
         if (id == null) {
 
             EntityManagerFactory factory;

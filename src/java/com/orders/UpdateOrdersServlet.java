@@ -82,12 +82,13 @@ public class UpdateOrdersServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("application/json;charset=UTF-8");
         String jsonstring = IOUtils.toString(request.getInputStream());
 
         int first = jsonstring.indexOf(":{");
         int last = jsonstring.indexOf("}}");
         String newstr = jsonstring.substring(first + 1, last + 1);
-        //   response.setContentType("application/json;charset=UTF-8");
+           
         PrintWriter out = response.getWriter();
          OrdersWrapper wr = new Genson().deserialize(newstr, OrdersWrapper.class);
     //    OrdersEntity o = new OrdersEntity(wr);

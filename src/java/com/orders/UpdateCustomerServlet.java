@@ -86,7 +86,7 @@ public class UpdateCustomerServlet extends HttpServlet {
         int first = jsonstring.indexOf(":{");
             int last = jsonstring.indexOf("}}");
             String newstr = jsonstring.substring(first + 1, last + 1);
-     //   response.setContentType("application/json;charset=UTF-8");
+        response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
         CustomerEntity c = new Genson().deserialize(newstr, CustomerEntity.class);
 

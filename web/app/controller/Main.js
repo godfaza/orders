@@ -3,7 +3,7 @@ Ext.define('OrdersApp.controller.Main', {
     extend: 'Ext.app.Controller',
     models: ['Login', 'Customer'],
     views: ['Viewport'],
-    stores: ['Login', 'Customer'],
+    stores: ['Login', 'Customer','Orders','Item'],
     requires: 'OrdersApp.store.Login',
 
     init: function () {
@@ -25,10 +25,14 @@ Ext.define('OrdersApp.controller.Main', {
 
     onLoginStoreReady: function ()
     {
+        var me = this;
         var updateClock = function () {
             /*   var MainView = Ext.ComponentQuery.query('mainview')[0];
              MainView.destroy();
              window.location.reload();*/
+          //  if (typeof me.getItemStore() === "function") 
+         //    me.getItemStore().load();
+            me.getOrdersStore().load();
 
             Ext.Ajax.request({
                 url: '/Orders/CheckSessionStateServlet',
@@ -55,7 +59,7 @@ Ext.define('OrdersApp.controller.Main', {
         var runner = new Ext.util.TaskRunner();
         var task = runner.start({
             run: updateClock,
-            interval: 120000
+            interval: 60000
         });
 
         //      Ext.getBody().mask('Entering....');
