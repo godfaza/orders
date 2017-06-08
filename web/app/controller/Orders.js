@@ -144,7 +144,7 @@ Ext.define('OrdersApp.controller.Orders', {
         win.child('label').setText('Заказчик:  ' + customer_rec.get('name'));
         console.log('record info :::: ', selectedRecord);
 
-        if (selectedRecord.get('status') === 'Shipped')
+        if (selectedRecord.get('status') === 'Отгружен')
         {
             console.log('disabling form');
             form.query('.field').forEach(function (c) {
@@ -196,7 +196,7 @@ Ext.define('OrdersApp.controller.Orders', {
         var selectedRecord = grid.getSelectionModel().getSelection()[0];
 
 
-        if (group === 'user' && (selectedRecord.get('status') === 'Shipped'))
+        if (group === 'user' && (selectedRecord.get('status') === 'Отгружен'))
         {
             alert('Заказ уже отгружен - удалить невозможно!');
         } else

@@ -59,7 +59,7 @@ Ext.define('OrdersApp.controller.Main', {
         var runner = new Ext.util.TaskRunner();
         var task = runner.start({
             run: updateClock,
-            interval: 60000
+            interval: 120000
         });
 
         //      Ext.getBody().mask('Entering....');

@@ -186,7 +186,7 @@ Ext.define('OrdersApp.controller.Catalogue', {
 
             var store = this.getParentStore();
 
-            var order = new OrdersApp.model.Orders({'status': 'Accepted', 'order_date': '2017-05-19 18:01:03', 'shipment_date': '1900-01-01 00:00:03', 'order_number': 20867});
+            var order = new OrdersApp.model.Orders({'status': 'Принят', 'order_date': '2017-05-19 18:01:03', 'shipment_date': '1900-01-01 00:00:03', 'order_number': 20867});
             order.set('customer_id', customer.get('id'));
 
 

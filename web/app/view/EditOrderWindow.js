@@ -96,9 +96,9 @@ Ext.define('OrdersApp.view.EditOrderWindow', {
                     itemId: 'statuscombo',
                     store: new Ext.data.SimpleStore({
                         data: [
-                            [1, 'Accepted'],
-                            [2, 'Processing'],
-                            [3, 'Shipped']
+                            [1, 'Принят'],
+                            [2, 'В обработке'],
+                            [3, 'Отгружен']
                         ],
                         id: 1,
                         fields: ['value', 'text']
