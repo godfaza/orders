@@ -12,7 +12,7 @@ Ext.define('OrdersApp.view.MainToolbar', {
             docked: 'bottom',
             itemId: 'maintb',
             items: [{xtype: 'tbfill'}, {text: '', icon: 'resources/person-2x.png', itemId: 'usermenu', menu: [
-                        {text: 'О заказчике', icon: 'resources/wrench-2x.png', itemId: 'usermenuinfo'},
+                        {text: 'О заказчике', icon: 'resources/info-2x.png', itemId: 'usermenuinfo'},
                         {text: 'Выйти', icon: 'resources/account-logout-2x.png', itemId: 'usermenulogout'}
                     ]
                 }]

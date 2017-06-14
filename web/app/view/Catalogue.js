@@ -3,6 +3,7 @@ Ext.define('OrdersApp.view.Catalogue', {
     alias: 'widget.catalogue',
     itemId: 'catalogue',
     title: 'Каталог',
+    icon: 'resources/list-rich-2x.png',
     models: ['Item'],
     store: 'Item',
     model: 'Item',

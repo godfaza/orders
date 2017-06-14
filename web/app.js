@@ -51,7 +51,7 @@ Ext.application({
     init: function ()
     {
         var me = this; 
-        me.splashscreen = Ext.getBody().mask('Loading application', 'splashscreen');
+        me.splashscreen = Ext.getBody().mask('Загрузка', 'splashscreen');
     }
     
     

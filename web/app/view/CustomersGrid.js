@@ -4,13 +4,14 @@ Ext.define('OrdersApp.view.CustomersGrid',{
     title: 'Заказчики',
     models: 'Customer',
     store: 'Customers',
+     icon: 'resources/people-2x.png',
     
     
     
 dockedItems : [{ 
     xtype : 'toolbar',
     docked: 'bottom', 
-    items : [{text:'Создать заказчика',itemId:'addcustomer'},{text:'Редактировать заказчика',iconCls:'save-icon16',itemId:'edcustomer'},{text:'Удалить заказчика',itemId:'delcustomer'}]
+    items : [{text:'Создать заказчика',itemId:'addcustomer',icon: 'resources/person-2x.png'},{text:'Редактировать заказчика',iconCls:'save-icon16',itemId:'edcustomer',icon: 'resources/cog-2x.png'},{text:'Удалить заказчика',itemId:'delcustomer',icon: 'resources/x-2x.png'}]
     },
  {
             xtype: 'toolbar',
@@ -24,7 +25,7 @@ dockedItems : [{
                     allowBlank: true,
                     selectOnFocus: true,
                     width: 250
-                }, {text: 'Применить', itemId: 'customersearchapply', icon: 'resources/cart-2x.png'}, {text: 'Сбросить', itemId: 'customersearchreset', icon: 'resources/cart-2x.png'}]
+                }, {text: 'Применить', itemId: 'customersearchapply', icon: 'resources/circle-check-2x.png'}, {text: 'Сбросить', itemId: 'customersearchreset', icon: 'resources/circle-x-2x.png'}]
         }],  
 
 

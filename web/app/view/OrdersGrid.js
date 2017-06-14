@@ -4,11 +4,12 @@ Ext.define('OrdersApp.view.OrdersGrid', {
     title: 'Заказы',
     models: 'Orders',
     store: 'Orders',
+     icon: 'resources/bolt-2x.png',
 
     dockedItems: [{
             xtype: 'toolbar',
             docked: 'bottom',
-            items: [{text: 'Редактировать заказ', itemId: 'edorder', hidden: true}, {text: 'Удалить заказ', itemId: 'delorder'}]
+            items: [{text: 'Редактировать заказ', itemId: 'edorder', hidden: true,icon: 'resources/wrench-2x.png'}, {text: 'Удалить заказ', itemId: 'delorder',icon: 'resources/x-2x.png'}]
         },
         {
             xtype: 'toolbar',
@@ -22,10 +23,11 @@ Ext.define('OrdersApp.view.OrdersGrid', {
                     region: 'north',
                     itemId: 'ordersearch',
                     emptyText: 'Поиск по любому полю',
+                    icon: 'resources/search.png',
                     allowBlank: true,
                     selectOnFocus: true,
                     width: 300
-                }, {text: 'Применить', itemId: 'ordersearchapply', icon: 'resources/cart-2x.png'}, {text: 'Сбросить', itemId: 'ordersearchreset', icon: 'resources/cart-2x.png'}
+                }, {text: 'Применить', itemId: 'ordersearchapply', icon: 'resources/circle-check-2x.png'}, {text: 'Сбросить', itemId: 'ordersearchreset', icon: 'resources/circle-x-2x.png'}
 
 
             ]
